@@ -1,0 +1,433 @@
+asyncapi: 2.6.0
+info:
+  title: Signal Server Real-Time Events
+  description: >-
+    The Signal Server real-time messaging interface provides WebSocket
+    connections for persistent, bidirectional communication between Signal
+    clients and the server. When a client has an active WebSocket connection,
+    encrypted messages are delivered in real-time through that connection.
+    For offline clients, the server sends push notifications via APNs (Apple)
+    or FCM (Google) to alert the client to connect and retrieve pending
+    messages. The WebSocket protocol also supports keepalive pings,
+    provisioning of new linked devices, and contact discovery operations.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+  production:
+    url: wss://chat.signal.org/v1/websocket/
+    protocol: wss
+    description: >-
+      Signal production WebSocket server for authenticated real-time
+      messaging. Clients establish a persistent WebSocket connection after
+      authentication to receive messages in real-time.
+    security:
+      - basicAuth: []
+  provisioning:
+    url: wss://chat.signal.org/v1/websocket/provisioning/
+    protocol: wss
+    description: >-
+      Signal provisioning WebSocket server used during the device linking
+      process. New devices connect to receive provisioning messages from
+      the primary device.
+channels:
+  /v1/websocket:
+    description: >-
+      The primary authenticated WebSocket channel for real-time message
+      delivery, receipt confirmations, and typing indicators. Clients
+      maintain a persistent connection on this channel to receive encrypted
+      messages as they arrive. The server uses a request-response framing
+      protocol over the WebSocket where both sides can initiate requests.
+    publish:
+      operationId: receiveMessages
+      summary: Receive real-time messages from the server
+      description: >-
+        The server pushes encrypted message envelopes to connected clients
+        through this channel. Each message includes the envelope type,
+        encrypted content, sender information (when not using sealed
+        sender), timestamp, and the server delivery timestamp. Clients must
+        acknowledge receipt of each message.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/MessageEnvelope'
+          - $ref: '#/components/messages/ReceiptMessage'
+          - $ref: '#/components/messages/TypingIndicator'
+          - $ref: '#/components/messages/StorySendMessage'
+    subscribe:
+      operationId: sendWebSocketRequest
+      summary: Send requests over the WebSocket channel
+      description: >-
+        Clients can send requests over the WebSocket channel, including
+        message acknowledgements, keepalive pings, and REST-like requests
+        that are framed as WebSocket messages.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/WebSocketRequestMessage'
+          - $ref: '#/components/messages/WebSocketResponseMessage'
+  /v1/websocket/provisioning:
+    description: >-
+      The provisioning WebSocket channel used during the device linking
+      flow. A new device connects to this channel and receives a
+      provisioning UUID. The primary device then sends an encrypted
+      provisioning message containing the account identity key and other
+      credentials needed to complete the linking process.
+    publish:
+      operationId: receiveProvisioningMessages
+      summary: Receive provisioning messages during device linking
+      description: >-
+        The server sends provisioning messages to new devices during the
+        linking process. This includes the provisioning UUID assignment
+        and the encrypted provisioning message from the primary device.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ProvisioningUUID'
+          - $ref: '#/components/messages/ProvisioningMessage'
+  /push/apns:
+    description: >-
+      Apple Push Notification Service channel for delivering push
+      notifications to iOS devices when they are not connected via
+      WebSocket. Notifications alert the device to connect to the server
+      and retrieve pending messages.
+    publish:
+      operationId: sendApnsPush
+      summary: Send push notification to iOS device
+      description: >-
+        The server sends a silent or alert push notification to an iOS
+        device via APNs when it has pending messages and no active
+        WebSocket connection.
+      message:
+        $ref: '#/components/messages/PushNotification'
+  /push/fcm:
+    description: >-
+      Firebase Cloud Messaging channel for delivering push notifications
+      to Android devices when they are not connected via WebSocket.
+      Notifications alert the device to connect and retrieve pending
+      messages.
+    publish:
+      operationId: sendFcmPush
+      summary: Send push notification to Android device
+      description: >-
+        The server sends a data-only push notification to an Android
+        device via FCM when it has pending messages and no active
+        WebSocket connection.
+      message:
+        $ref: '#/components/messages/PushNotification'
+components:
+  securitySchemes:
+    basicAuth:
+      type: httpBasic
+      description: >-
+        HTTP Basic authentication using the account UUID and password,
+        passed as query parameters during WebSocket upgrade.
+  messages:
+    MessageEnvelope:
+      name: MessageEnvelope
+      title: Encrypted Message Envelope
+      summary: >-
+        An encrypted message envelope containing a Signal Protocol message.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Envelope'
+    ReceiptMessage:
+      name: ReceiptMessage
+      title: Delivery or Read Receipt
+      summary: >-
+        A receipt message confirming delivery or read status of a
+        previously sent message.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Receipt'
+    TypingIndicator:
+      name: TypingIndicator
+      title: Typing Indicator
+      summary: >-
+        A typing indicator showing that a contact is currently composing a
+        message.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TypingEvent'
+    StorySendMessage:
+      name: StorySendMessage
+      title: Story Send Message
+      summary: >-
+        A message containing a story post sent by a contact.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/StorySend'
+    WebSocketRequestMessage:
+      name: WebSocketRequestMessage
+      title: WebSocket Request
+      summary: >-
+        A request message sent over the WebSocket connection using the
+        Signal WebSocket framing protocol.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebSocketRequest'
+    WebSocketResponseMessage:
+      name: WebSocketResponseMessage
+      title: WebSocket Response
+      summary: >-
+        A response message sent over the WebSocket connection acknowledging
+        a previous request.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebSocketResponse'
+    ProvisioningUUID:
+      name: ProvisioningUUID
+      title: Provisioning UUID Assignment
+      summary: >-
+        The server assigns a provisioning UUID to a new device during the
+        device linking process.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ProvisioningUUIDPayload'
+    ProvisioningMessage:
+      name: ProvisioningMessage
+      title: Encrypted Provisioning Message
+      summary: >-
+        An encrypted provisioning message from the primary device
+        containing account credentials for the new linked device.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ProvisioningMessagePayload'
+    PushNotification:
+      name: PushNotification
+      title: Push Notification
+      summary: >-
+        A push notification sent to an offline device to alert it of
+        pending messages.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PushNotificationPayload'
+  schemas:
+    Envelope:
+      type: object
+      description: >-
+        A Signal Protocol message envelope containing encrypted content
+        and delivery metadata.
+      properties:
+        type:
+          type: integer
+          description: >-
+            The envelope type. 1 for ciphertext, 3 for prekey bundle
+            message, 6 for plaintext content, 7 for unidentified sender.
+          enum:
+            - 1
+            - 3
+            - 6
+            - 7
+        sourceUuid:
+          type: string
+          format: uuid
+          description: >-
+            The sender's account UUID. Absent for sealed sender messages.
+        sourceDevice:
+          type: integer
+          description: >-
+            The sender's device identifier. Absent for sealed sender
+            messages.
+        timestamp:
+          type: integer
+          format: int64
+          description: >-
+            The client-side timestamp in milliseconds when the message was
+            sent.
+        serverTimestamp:
+          type: integer
+          format: int64
+          description: >-
+            The server-side timestamp in milliseconds when the message was
+            received.
+        serverDeliveredTimestamp:
+          type: integer
+          format: int64
+          description: >-
+            The server-side timestamp in milliseconds when the message was
+            delivered to this device.
+        content:
+          type: string
+          description: >-
+            The Base64-encoded encrypted message content.
+        serverGuid:
+          type: string
+          format: uuid
+          description: >-
+            A server-assigned unique identifier for this message delivery.
+        destinationUuid:
+          type: string
+          format: uuid
+          description: >-
+            The recipient's account UUID.
+        urgent:
+          type: boolean
+          description: >-
+            Whether this message is flagged as urgent.
+        story:
+          type: boolean
+          description: >-
+            Whether this message is a story message.
+        reportSpamToken:
+          type: string
+          description: >-
+            A token for spam reporting, included in sealed sender messages.
+    Receipt:
+      type: object
+      description: >-
+        A delivery or read receipt for one or more messages.
+      properties:
+        type:
+          type: string
+          description: >-
+            The receipt type.
+          enum:
+            - DELIVERY
+            - READ
+        timestamps:
+          type: array
+          description: >-
+            The timestamps of the messages being acknowledged.
+          items:
+            type: integer
+            format: int64
+    TypingEvent:
+      type: object
+      description: >-
+        A typing indicator event.
+      properties:
+        action:
+          type: string
+          description: >-
+            Whether typing has started or stopped.
+          enum:
+            - STARTED
+            - STOPPED
+        timestamp:
+          type: integer
+          format: int64
+          description: >-
+            The client timestamp of the typing event.
+        groupId:
+          type: string
+          description: >-
+            The Base64-encoded group identifier if typing in a group
+            conversation.
+    StorySend:
+      type: object
+      description: >-
+        A story message sent to contacts or groups.
+      properties:
+        content:
+          type: string
+          description: >-
+            The Base64-encoded encrypted story content.
+        timestamp:
+          type: integer
+          format: int64
+          description: >-
+            The client timestamp of the story message.
+        allowsReplies:
+          type: boolean
+          description: >-
+            Whether replies are permitted on this story.
+    WebSocketRequest:
+      type: object
+      description: >-
+        A request message in the Signal WebSocket framing protocol.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: >-
+            The request identifier for correlating responses.
+        verb:
+          type: string
+          description: >-
+            The HTTP method (GET, PUT, POST, DELETE).
+        path:
+          type: string
+          description: >-
+            The request path, corresponding to a REST API endpoint.
+        body:
+          type: string
+          description: >-
+            The Base64-encoded request body.
+        headers:
+          type: array
+          description: >-
+            HTTP headers for the request.
+          items:
+            type: string
+    WebSocketResponse:
+      type: object
+      description: >-
+        A response message in the Signal WebSocket framing protocol.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: >-
+            The request identifier being responded to.
+        status:
+          type: integer
+          description: >-
+            The HTTP status code of the response.
+        message:
+          type: string
+          description: >-
+            The status message.
+        body:
+          type: string
+          description: >-
+            The Base64-encoded response body.
+        headers:
+          type: array
+          description: >-
+            HTTP headers for the response.
+          items:
+            type: string
+    ProvisioningUUIDPayload:
+      type: object
+      description: >-
+        A provisioning UUID assignment sent to a new device during linking.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: >-
+            The provisioning UUID assigned to the new device.
+    ProvisioningMessagePayload:
+      type: object
+      description: >-
+        An encrypted provisioning message containing account credentials.
+      properties:
+        body:
+          type: string
+          description: >-
+            The Base64-encoded encrypted provisioning message from the
+            primary device.
+    PushNotificationPayload:
+      type: object
+      description: >-
+        A push notification payload sent to offline devices.
+      properties:
+        type:
+          type: string
+          description: >-
+            The notification type identifier.
+          enum:
+            - notification
+            - challenge
+            - rateLimitChallenge
+        data:
+          type: object
+          description: >-
+            Additional data included in the push notification.
+          properties:
+            urgent:
+              type: boolean
+              description: >-
+                Whether the notification is for an urgent message.

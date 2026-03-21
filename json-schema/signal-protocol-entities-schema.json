@@ -1,0 +1,364 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://signal.org/schemas/signal/protocol-entities.json",
+  "title": "Signal Protocol Entities",
+  "description": "Schema defining the core cryptographic entities used in the Signal Protocol, including identity keys, pre-key bundles, signed pre-keys, Kyber post-quantum pre-keys, and session state. These entities form the foundation of the key exchange and message encryption mechanisms used by Signal clients and server.",
+  "type": "object",
+  "$defs": {
+    "IdentityKey": {
+      "type": "object",
+      "title": "Identity Key",
+      "description": "A long-term Curve25519 identity key pair used to identify an account. Each account has an ACI (Account Identity) key and a PNI (Phone Number Identity) key.",
+      "required": ["publicKey"],
+      "properties": {
+        "publicKey": {
+          "type": "string",
+          "description": "The Base64-encoded Curve25519 public identity key (32 bytes).",
+          "pattern": "^[A-Za-z0-9+/=]+$"
+        }
+      }
+    },
+    "PreKey": {
+      "type": "object",
+      "title": "One-Time Pre-Key",
+      "description": "An ephemeral Curve25519 key pair uploaded to the server for use in the X3DH or PQXDH key agreement. Each pre-key is used at most once.",
+      "required": ["keyId", "publicKey"],
+      "properties": {
+        "keyId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier for this pre-key.",
+          "minimum": 0
+        },
+        "publicKey": {
+          "type": "string",
+          "description": "The Base64-encoded Curve25519 public key (32 bytes).",
+          "pattern": "^[A-Za-z0-9+/=]+$"
+        }
+      }
+    },
+    "SignedPreKey": {
+      "type": "object",
+      "title": "Signed Pre-Key",
+      "description": "A medium-term Curve25519 key pair signed by the identity key. Rotated periodically and used as a fallback when one-time pre-keys are exhausted.",
+      "required": ["keyId", "publicKey", "signature"],
+      "properties": {
+        "keyId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier for this signed pre-key.",
+          "minimum": 0
+        },
+        "publicKey": {
+          "type": "string",
+          "description": "The Base64-encoded Curve25519 public key (32 bytes).",
+          "pattern": "^[A-Za-z0-9+/=]+$"
+        },
+        "signature": {
+          "type": "string",
+          "description": "The Base64-encoded XEdDSA signature over the public key, created with the identity private key (64 bytes).",
+          "pattern": "^[A-Za-z0-9+/=]+$"
+        }
+      }
+    },
+    "KyberPreKey": {
+      "type": "object",
+      "title": "Kyber Post-Quantum Pre-Key",
+      "description": "A post-quantum key encapsulation mechanism (KEM) key pair using CRYSTALS-Kyber, uploaded to the server for the PQXDH key agreement protocol. Provides quantum resistance for forward secrecy.",
+      "required": ["keyId", "publicKey", "signature"],
+      "properties": {
+        "keyId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier for this Kyber pre-key.",
+          "minimum": 0
+        },
+        "publicKey": {
+          "type": "string",
+          "description": "The Base64-encoded Kyber-1024 public key.",
+          "pattern": "^[A-Za-z0-9+/=]+$"
+        },
+        "signature": {
+          "type": "string",
+          "description": "The Base64-encoded signature over the Kyber public key, created with the identity private key.",
+          "pattern": "^[A-Za-z0-9+/=]+$"
+        }
+      }
+    },
+    "PreKeyBundle": {
+      "type": "object",
+      "title": "Pre-Key Bundle",
+      "description": "A complete pre-key bundle retrieved from the server for establishing a new Signal Protocol session. Contains identity key, signed pre-key, optional one-time pre-key, and optional Kyber pre-key.",
+      "required": ["identityKey", "signedPreKey", "registrationId"],
+      "properties": {
+        "identityKey": {
+          "type": "string",
+          "description": "The Base64-encoded identity public key of the account."
+        },
+        "registrationId": {
+          "type": "integer",
+          "description": "The registration ID of the target device.",
+          "minimum": 0,
+          "maximum": 16383
+        },
+        "deviceId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The device identifier. Primary device is always 1.",
+          "minimum": 1
+        },
+        "preKey": {
+          "$ref": "#/$defs/PreKey",
+          "description": "An optional one-time EC pre-key."
+        },
+        "signedPreKey": {
+          "$ref": "#/$defs/SignedPreKey",
+          "description": "The current signed pre-key."
+        },
+        "pqPreKey": {
+          "$ref": "#/$defs/KyberPreKey",
+          "description": "An optional one-time Kyber post-quantum pre-key for PQXDH."
+        }
+      }
+    },
+    "MessageEnvelope": {
+      "type": "object",
+      "title": "Message Envelope",
+      "description": "A Signal Protocol message envelope containing encrypted content and routing metadata.",
+      "required": ["type", "timestamp", "content"],
+      "properties": {
+        "type": {
+          "type": "integer",
+          "description": "The envelope type: 1 (ciphertext), 3 (prekey), 6 (plaintext content), 7 (unidentified sender).",
+          "enum": [1, 3, 6, 7]
+        },
+        "sourceUuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The sender's ACI UUID. Absent in sealed sender messages."
+        },
+        "sourceDevice": {
+          "type": "integer",
+          "description": "The sender's device ID. Absent in sealed sender messages.",
+          "minimum": 1
+        },
+        "destinationUuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The recipient's ACI UUID."
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The client-side send timestamp in milliseconds since epoch."
+        },
+        "serverTimestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The server-side receive timestamp in milliseconds since epoch."
+        },
+        "content": {
+          "type": "string",
+          "description": "The Base64-encoded encrypted message payload."
+        },
+        "serverGuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "A server-assigned GUID for this delivery instance."
+        },
+        "urgent": {
+          "type": "boolean",
+          "description": "Whether this message should be treated as urgent for push delivery."
+        },
+        "story": {
+          "type": "boolean",
+          "description": "Whether this envelope contains a story message."
+        }
+      }
+    },
+    "Account": {
+      "type": "object",
+      "title": "Signal Account",
+      "description": "A Signal user account identified by a phone number and one or more UUIDs.",
+      "required": ["uuid", "number"],
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The ACI (Account Identity) UUID, the primary stable identifier."
+        },
+        "number": {
+          "type": "string",
+          "description": "The E164-formatted phone number associated with the account.",
+          "pattern": "^\\+[1-9]\\d{1,14}$"
+        },
+        "pni": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The PNI (Phone Number Identity) UUID, which changes when the phone number changes."
+        },
+        "usernameHash": {
+          "type": "string",
+          "description": "The Base64url-encoded SHA-256 hash of the username, if set."
+        },
+        "identityKey": {
+          "type": "string",
+          "description": "The Base64-encoded ACI identity public key."
+        },
+        "pniIdentityKey": {
+          "type": "string",
+          "description": "The Base64-encoded PNI identity public key."
+        },
+        "devices": {
+          "type": "array",
+          "description": "The list of devices linked to this account.",
+          "items": {
+            "$ref": "#/$defs/Device"
+          }
+        }
+      }
+    },
+    "Device": {
+      "type": "object",
+      "title": "Device",
+      "description": "A device linked to a Signal account. Each account has a primary device (ID 1) and may have additional linked devices.",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The device identifier. The primary device is always 1.",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The encrypted device name, Base64-encoded."
+        },
+        "registrationId": {
+          "type": "integer",
+          "description": "The Signal Protocol registration ID for this device.",
+          "minimum": 0,
+          "maximum": 16383
+        },
+        "lastSeen": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unix timestamp in milliseconds when the device last connected."
+        },
+        "created": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unix timestamp in milliseconds when the device was linked."
+        },
+        "fetchesMessages": {
+          "type": "boolean",
+          "description": "Whether this device uses WebSocket to fetch messages (true) or relies on push notifications (false)."
+        },
+        "apnId": {
+          "type": "string",
+          "description": "The Apple Push Notification Service token for iOS devices."
+        },
+        "gcmId": {
+          "type": "string",
+          "description": "The Firebase Cloud Messaging registration token for Android devices."
+        }
+      }
+    },
+    "SealedSenderCertificate": {
+      "type": "object",
+      "title": "Sealed Sender Certificate",
+      "description": "A delivery certificate issued by the server for sealed sender message delivery. Sealed sender hides the sender identity from the server during message transmission.",
+      "required": ["certificate"],
+      "properties": {
+        "certificate": {
+          "type": "string",
+          "description": "The Base64-encoded signed certificate containing the sender's UUID, device ID, identity key, and expiration."
+        },
+        "expiration": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The certificate expiration timestamp in milliseconds since epoch."
+        }
+      }
+    },
+    "GroupV2": {
+      "type": "object",
+      "title": "Signal Group (V2)",
+      "description": "A Signal group using the V2 groups protocol with server-side state. Groups use zero-knowledge group credentials to maintain member privacy.",
+      "properties": {
+        "masterKey": {
+          "type": "string",
+          "description": "The Base64-encoded 32-byte group master key.",
+          "minLength": 1
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The Base64-encoded group identifier derived from the master key."
+        },
+        "title": {
+          "type": "string",
+          "description": "The encrypted group title."
+        },
+        "avatar": {
+          "type": "string",
+          "description": "The CDN path to the encrypted group avatar."
+        },
+        "revision": {
+          "type": "integer",
+          "description": "The current group state revision number.",
+          "minimum": 0
+        },
+        "members": {
+          "type": "array",
+          "description": "The list of group members with their roles.",
+          "items": {
+            "$ref": "#/$defs/GroupMember"
+          }
+        },
+        "accessControl": {
+          "type": "object",
+          "description": "Access control settings for group modifications.",
+          "properties": {
+            "attributes": {
+              "type": "string",
+              "description": "Who can modify group attributes.",
+              "enum": ["UNKNOWN", "ANY", "MEMBER", "ADMINISTRATOR", "UNSATISFIABLE"]
+            },
+            "members": {
+              "type": "string",
+              "description": "Who can modify the member list.",
+              "enum": ["UNKNOWN", "ANY", "MEMBER", "ADMINISTRATOR", "UNSATISFIABLE"]
+            },
+            "addFromInviteLink": {
+              "type": "string",
+              "description": "Who can join via invite link.",
+              "enum": ["UNKNOWN", "ANY", "MEMBER", "ADMINISTRATOR", "UNSATISFIABLE"]
+            }
+          }
+        }
+      }
+    },
+    "GroupMember": {
+      "type": "object",
+      "title": "Group Member",
+      "description": "A member of a Signal V2 group.",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The member's ACI UUID."
+        },
+        "role": {
+          "type": "string",
+          "description": "The member's role in the group.",
+          "enum": ["UNKNOWN", "DEFAULT", "ADMINISTRATOR"]
+        },
+        "joinedAtRevision": {
+          "type": "integer",
+          "description": "The group revision at which this member joined.",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

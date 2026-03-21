@@ -1,0 +1,238 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "signal": "https://signal.org/ns/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "sec": "https://w3id.org/security#",
+
+    "Account": {
+      "@id": "signal:Account",
+      "@context": {
+        "uuid": {
+          "@id": "schema:identifier",
+          "@type": "xsd:string"
+        },
+        "number": {
+          "@id": "schema:telephone",
+          "@type": "xsd:string"
+        },
+        "pni": {
+          "@id": "signal:phoneNumberIdentity",
+          "@type": "xsd:string"
+        },
+        "usernameHash": {
+          "@id": "signal:usernameHash",
+          "@type": "xsd:string"
+        },
+        "identityKey": {
+          "@id": "sec:publicKey",
+          "@type": "xsd:string"
+        },
+        "devices": {
+          "@id": "signal:devices",
+          "@container": "@set"
+        },
+        "dateCreated": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Device": {
+      "@id": "signal:Device",
+      "@context": {
+        "deviceId": {
+          "@id": "schema:identifier",
+          "@type": "xsd:integer"
+        },
+        "name": {
+          "@id": "schema:name",
+          "@type": "xsd:string"
+        },
+        "lastSeen": {
+          "@id": "signal:lastSeen",
+          "@type": "xsd:dateTime"
+        },
+        "created": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "platform": {
+          "@id": "schema:operatingSystem",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Message": {
+      "@id": "signal:Message",
+      "@context": {
+        "type": {
+          "@id": "signal:envelopeType",
+          "@type": "xsd:integer"
+        },
+        "sender": {
+          "@id": "schema:sender",
+          "@type": "@id"
+        },
+        "recipient": {
+          "@id": "schema:recipient",
+          "@type": "@id"
+        },
+        "timestamp": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "serverTimestamp": {
+          "@id": "signal:serverTimestamp",
+          "@type": "xsd:dateTime"
+        },
+        "content": {
+          "@id": "schema:text",
+          "@type": "xsd:string"
+        },
+        "urgent": {
+          "@id": "signal:urgent",
+          "@type": "xsd:boolean"
+        }
+      }
+    },
+
+    "IdentityKey": {
+      "@id": "signal:IdentityKey",
+      "@context": {
+        "publicKey": {
+          "@id": "sec:publicKeyBase64",
+          "@type": "xsd:string"
+        },
+        "fingerprint": {
+          "@id": "signal:fingerprint",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "PreKey": {
+      "@id": "signal:PreKey",
+      "@context": {
+        "keyId": {
+          "@id": "schema:identifier",
+          "@type": "xsd:integer"
+        },
+        "publicKey": {
+          "@id": "sec:publicKeyBase64",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "SignedPreKey": {
+      "@id": "signal:SignedPreKey",
+      "@context": {
+        "keyId": {
+          "@id": "schema:identifier",
+          "@type": "xsd:integer"
+        },
+        "publicKey": {
+          "@id": "sec:publicKeyBase64",
+          "@type": "xsd:string"
+        },
+        "signature": {
+          "@id": "sec:signature",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "KyberPreKey": {
+      "@id": "signal:KyberPreKey",
+      "@context": {
+        "keyId": {
+          "@id": "schema:identifier",
+          "@type": "xsd:integer"
+        },
+        "publicKey": {
+          "@id": "sec:publicKeyBase64",
+          "@type": "xsd:string"
+        },
+        "signature": {
+          "@id": "sec:signature",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Group": {
+      "@id": "signal:Group",
+      "@context": {
+        "groupId": {
+          "@id": "schema:identifier",
+          "@type": "xsd:string"
+        },
+        "title": {
+          "@id": "schema:name",
+          "@type": "xsd:string"
+        },
+        "avatar": {
+          "@id": "schema:image",
+          "@type": "@id"
+        },
+        "members": {
+          "@id": "schema:member",
+          "@container": "@set"
+        },
+        "revision": {
+          "@id": "schema:version",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "Profile": {
+      "@id": "signal:Profile",
+      "@context": {
+        "name": {
+          "@id": "schema:name",
+          "@type": "xsd:string"
+        },
+        "about": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "avatar": {
+          "@id": "schema:image",
+          "@type": "@id"
+        },
+        "paymentAddress": {
+          "@id": "signal:paymentAddress",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Protocol": {
+      "@id": "signal:Protocol",
+      "@context": {
+        "name": {
+          "@id": "schema:name",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "specificationUrl": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "version": {
+          "@id": "schema:version",
+          "@type": "xsd:string"
+        }
+      }
+    }
+  }
+}
