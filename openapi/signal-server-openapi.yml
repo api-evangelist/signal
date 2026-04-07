@@ -27,46 +27,42 @@ servers:
   - url: https://chat.signal.org
     description: Signal Production Server
 tags:
-  - name: Registration
-    description: >-
-      Account registration endpoints for creating new Signal accounts via
-      phone number verification.
   - name: Accounts
     description: >-
       Account management endpoints for configuring account settings,
       managing capabilities, and account lifecycle operations.
-  - name: Devices
-    description: >-
-      Device management endpoints for linking, unlinking, and managing
-      devices associated with a Signal account.
-  - name: Messages
-    description: >-
-      Message sending and receiving endpoints for delivering encrypted
-      messages between Signal users.
-  - name: Keys
-    description: >-
-      Pre-key bundle management endpoints for uploading and retrieving
-      public key material used in the Signal Protocol key exchange.
-  - name: Profiles
-    description: >-
-      Profile management endpoints for setting and retrieving user profile
-      information including names, avatars, and capabilities.
   - name: Attachments
     description: >-
       Attachment handling endpoints for uploading and downloading media
       files associated with messages.
-  - name: Stickers
-    description: >-
-      Sticker pack management endpoints for uploading and retrieving
-      sticker packs.
-  - name: Groups
-    description: >-
-      Group management endpoints for creating, updating, and managing
-      Signal group conversations.
   - name: Certificates
     description: >-
       Certificate endpoints for retrieving delivery certificates used in
       sealed sender message delivery.
+  - name: Devices
+    description: >-
+      Device management endpoints for linking, unlinking, and managing
+      devices associated with a Signal account.
+  - name: Keys
+    description: >-
+      Pre-key bundle management endpoints for uploading and retrieving
+      public key material used in the Signal Protocol key exchange.
+  - name: Messages
+    description: >-
+      Message sending and receiving endpoints for delivering encrypted
+      messages between Signal users.
+  - name: Profiles
+    description: >-
+      Profile management endpoints for setting and retrieving user profile
+      information including names, avatars, and capabilities.
+  - name: Registration
+    description: >-
+      Account registration endpoints for creating new Signal accounts via
+      phone number verification.
+  - name: Stickers
+    description: >-
+      Sticker pack management endpoints for uploading and retrieving
+      sticker packs.
 security:
   - basicAuth: []
 paths:
