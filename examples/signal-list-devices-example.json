@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://chat.signal.org/v1/devices",
+    "headers": {
+      "Authorization": "Basic base64(+15551234567:signaling-key-value)"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "devices": [
+        {
+          "id": 1,
+          "name": "Primary Device",
+          "lastSeen": 1746177600000,
+          "created": 1704067200000,
+          "registrationId": 12345,
+          "pniRegistrationId": 67890
+        },
+        {
+          "id": 2,
+          "name": "Signal Desktop",
+          "lastSeen": 1746091200000,
+          "created": 1704153600000,
+          "registrationId": 11111,
+          "pniRegistrationId": 22222
+        }
+      ]
+    }
+  }
+}

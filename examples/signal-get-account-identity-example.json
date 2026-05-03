@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://chat.signal.org/v1/accounts/whoami",
+    "headers": {
+      "Authorization": "Basic base64(+15551234567:signaling-key-value)"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "pni": "7b3d9e21-1234-4abc-9def-abc123def456",
+      "number": "+15551234567",
+      "usernameHash": null
+    }
+  }
+}

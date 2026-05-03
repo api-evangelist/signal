@@ -1,0 +1,59 @@
+{
+  "title": "Signal Server Data Structure",
+  "description": "Hierarchical data model for the Signal Private Messenger server backend",
+  "type": "object",
+  "structure": {
+    "Account": {
+      "description": "A Signal user account identified by a phone number with ACI and PNI identifiers",
+      "fields": {
+        "aci": { "type": "uuid", "role": "identifier", "description": "Account Identity UUID" },
+        "pni": { "type": "uuid", "role": "identifier", "description": "Phone Number Identity UUID" },
+        "number": { "type": "string", "role": "identifier", "description": "E.164 formatted phone number" },
+        "username": { "type": "string", "role": "label", "description": "Optional username handle" },
+        "registrationId": { "type": "integer", "role": "crypto-id" }
+      },
+      "children": {
+        "Device": {
+          "description": "A Signal client device linked to the account (primary or linked)",
+          "fields": {
+            "id": { "type": "integer", "role": "identifier", "description": "Device ID (1 = primary)" },
+            "name": { "type": "string", "role": "label" },
+            "lastSeen": { "type": "datetime", "role": "audit" },
+            "created": { "type": "datetime", "role": "audit" }
+          },
+          "children": {
+            "PreKeyBundle": {
+              "description": "Cryptographic key material for initiating X3DH/PQXDH key exchange",
+              "fields": {
+                "identityKey": { "type": "string", "role": "crypto-key", "encoding": "base64", "curve": "Curve25519" },
+                "signedPreKey": { "type": "object", "role": "crypto-key" },
+                "oneTimePreKey": { "type": "object", "role": "crypto-key", "description": "Consumed at most once" },
+                "kyberPreKey": { "type": "object", "role": "crypto-key", "description": "Post-quantum Kyber key" }
+              }
+            }
+          }
+        },
+        "MessageEnvelope": {
+          "description": "An encrypted message envelope routed through the Signal server",
+          "fields": {
+            "type": { "type": "integer", "role": "classification", "description": "Envelope type (1=ciphertext, 3=prekey bundle, 8=sealed sender)" },
+            "destinationUuid": { "type": "uuid", "role": "reference" },
+            "destinationDeviceId": { "type": "integer", "role": "reference" },
+            "content": { "type": "string", "role": "payload", "encoding": "base64", "description": "Encrypted message content" },
+            "timestamp": { "type": "integer", "role": "temporal", "description": "Unix milliseconds" }
+          }
+        },
+        "Profile": {
+          "description": "A Signal user profile containing encrypted identity information",
+          "fields": {
+            "uuid": { "type": "uuid", "role": "identifier" },
+            "name": { "type": "string", "role": "label", "description": "Encrypted profile name" },
+            "avatar": { "type": "string", "role": "media", "description": "CDN path to profile avatar" },
+            "identityKey": { "type": "string", "role": "crypto-key", "encoding": "base64" },
+            "capabilities": { "type": "object", "role": "feature-flags" }
+          }
+        }
+      }
+    }
+  }
+}

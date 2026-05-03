@@ -1,0 +1,129 @@
+vocabulary:
+  name: Signal Protocol Vocabulary
+  description: >-
+    Domain vocabulary for the Signal Protocol and Signal Private Messenger
+    ecosystem, covering cryptographic protocols, key management, message
+    delivery, and privacy concepts.
+  version: '1.0'
+  created: '2026-05-02'
+  provider: Signal Messenger
+
+terms:
+  - term: Signal Protocol
+    definition: >-
+      The cryptographic protocol underlying Signal's end-to-end encryption,
+      combining the X3DH (Extended Triple Diffie-Hellman) key agreement protocol
+      with the Double Ratchet Algorithm for continuous key derivation. Used by
+      Signal, WhatsApp, Google Messages, and other messaging platforms to provide
+      forward secrecy and break-in recovery.
+    synonyms:
+      - TextSecure Protocol
+      - Axolotl Protocol
+
+  - term: Double Ratchet Algorithm
+    definition: >-
+      A key management algorithm that derives new encryption keys for every message
+      using a combination of Diffie-Hellman key agreement (ratchet) and a symmetric
+      key ratchet. Provides perfect forward secrecy (past sessions remain secure
+      if keys are compromised) and break-in recovery (future sessions recover
+      security after key compromise).
+    synonyms:
+      - Double Ratchet
+      - Axolotl ratchet
+
+  - term: X3DH
+    definition: >-
+      Extended Triple Diffie-Hellman — the key agreement protocol used to establish
+      a shared secret between two parties who have not previously communicated.
+      Uses the recipient's identity key, signed pre-key, and one-time pre-key
+      uploaded to the Signal server to allow asynchronous session establishment
+      without both parties being online simultaneously.
+    synonyms:
+      - Extended Triple Diffie-Hellman
+
+  - term: PQXDH
+    definition: >-
+      Post-Quantum Extended Diffie-Hellman — Signal's quantum-resistant upgrade
+      to X3DH that adds Kyber-1024 (CRYSTALS-Kyber) post-quantum key encapsulation
+      alongside the existing Curve25519 Diffie-Hellman exchange, providing
+      protection against future quantum computing attacks on past communications.
+    synonyms:
+      - Post-Quantum Extended Diffie-Hellman
+
+  - term: Pre-Key Bundle
+    definition: >-
+      A set of public cryptographic keys uploaded by a Signal client to the server
+      that allow others to initiate an encrypted session without the recipient
+      being online. Includes: identity key, signed pre-key (with identity signature),
+      one-time pre-key (consumed once), and optionally a Kyber pre-key.
+    related:
+      - X3DH
+      - PQXDH
+
+  - term: One-Time Pre-Key (OPK)
+    definition: >-
+      An ephemeral Curve25519 key pair uploaded to the Signal server in bulk by
+      each client for use in X3DH session establishment. Each OPK is consumed
+      at most once, preventing session replay attacks. The server distributes
+      one per new session initiation.
+    synonyms:
+      - one-time prekey
+      - OPK
+
+  - term: Signed Pre-Key (SPK)
+    definition: >-
+      A medium-term Curve25519 key pair signed by the account's identity key and
+      uploaded to the Signal server. Rotated periodically (typically weekly) and
+      used as a fallback when one-time pre-keys are exhausted.
+    synonyms:
+      - signed prekey
+      - SPK
+
+  - term: ACI
+    definition: >-
+      Account Identity — a UUID that globally identifies a Signal account
+      independently of the phone number. Used in message routing to decouple
+      account identity from phone number, supporting features like sealed sender
+      and number change.
+    synonyms:
+      - Account Identity UUID
+
+  - term: PNI
+    definition: >-
+      Phone Number Identity — a secondary UUID associated with a Signal account's
+      phone number. Allows the Signal server to route messages to phone numbers
+      while preserving privacy, as contacts can be notified of number changes
+      without revealing the full account history.
+    synonyms:
+      - Phone Number Identity UUID
+
+  - term: Sealed Sender
+    definition: >-
+      A Signal feature where the message sender's identity is concealed from
+      the Signal server through an unidentified delivery certificate mechanism.
+      The server can deliver the message but cannot determine the sender's
+      identity, only the recipient.
+    synonyms:
+      - unidentified sender
+      - anonymous messaging
+
+  - term: End-to-End Encryption (E2EE)
+    definition: >-
+      A communication method where messages are encrypted on the sender's device
+      and only decryptable by the intended recipient's device. Intermediate servers
+      route the encrypted content without being able to read it. Signal implements
+      E2EE for all messages, calls, and file transfers.
+    synonyms:
+      - E2EE
+      - end-to-end encrypted
+
+tags:
+  - Encryption
+  - Messaging
+  - Security
+  - Cryptography
+  - Open Source
+  - Privacy
+  - Signal Protocol
+  - End-to-End Encryption
+  - Post-Quantum Cryptography
