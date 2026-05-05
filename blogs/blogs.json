@@ -1,0 +1,13 @@
+{
+  "repo": "signal",
+  "feeds": [
+    {
+      "source": "https://signal.org/blog/",
+      "feed_url": "https://signal.org/blog/rss.xml",
+      "saved": 10,
+      "title": "Signal Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:36:06Z"
+}
