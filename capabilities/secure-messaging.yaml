@@ -1,197 +1,281 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Signal Secure Messaging"
-  description: >-
-    Unified workflow capability for Signal Private Messenger server integration,
-    enabling secure end-to-end encrypted messaging operations. Covers account
-    lifecycle management, linked device provisioning, pre-key bundle distribution
-    for the Signal Protocol key exchange, encrypted message delivery, and user
-    profile management. Designed for self-hosted Signal Server deployments and
-    developers building Signal-compatible secure messaging applications.
+  label: Signal Secure Messaging
+  description: Unified workflow capability for Signal Private Messenger server integration, enabling secure end-to-end encrypted
+    messaging operations. Covers account lifecycle management, linked device provisioning, pre-key bundle distribution for
+    the Signal Protocol key exchange, encrypted message delivery, and user profile management. Designed for self-hosted Signal
+    Server deployments and developers building Signal-compatible secure messaging applications.
   tags:
-    - Messaging
-    - Encryption
-    - Privacy
-    - Security
-    - Signal Protocol
-    - Open Source
-    - End-to-End Encryption
-  created: "2026-05-02"
-  modified: "2026-05-02"
-
+  - Messaging
+  - Encryption
+  - Privacy
+  - Security
+  - Signal Protocol
+  - Open Source
+  - End-to-End Encryption
+  created: '2026-05-02'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      SIGNAL_USERNAME: SIGNAL_USERNAME
-      SIGNAL_PASSWORD: SIGNAL_PASSWORD
-
+- namespace: env
+  keys:
+    SIGNAL_USERNAME: SIGNAL_USERNAME
+    SIGNAL_PASSWORD: SIGNAL_PASSWORD
 capability:
   consumes:
-    - import: signal-server
-      location: ./shared/signal-server.yaml
-
+  - type: http
+    namespace: signal-server
+    baseUri: https://chat.signal.org
+    description: Signal Server REST API for private encrypted messaging
+    authentication:
+      type: basic
+      username: '{{SIGNAL_USERNAME}}'
+      password: '{{SIGNAL_PASSWORD}}'
+    resources:
+    - name: registration
+      path: /v1/registration
+      description: Account registration
+      operations:
+      - name: register-account
+        method: POST
+        description: Register a new Signal account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: account-identity
+      path: /v1/accounts/whoami
+      description: Current account identity
+      operations:
+      - name: get-account-identity
+        method: GET
+        description: Get current account identity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: account-attributes
+      path: /v1/accounts/attributes
+      description: Account attributes management
+      operations:
+      - name: set-account-attributes
+        method: PUT
+        description: Set account attributes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: devices
+      path: /v1/devices
+      description: Device management
+      operations:
+      - name: list-devices
+        method: GET
+        description: List linked devices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: messages
+      path: /v1/messages/{destinationUuid}
+      description: Encrypted message delivery
+      operations:
+      - name: send-message
+        method: PUT
+        description: Send encrypted messages to a destination account
+        inputParameters:
+        - name: destinationUuid
+          in: path
+          type: string
+          required: true
+          description: Destination account UUID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: keys
+      path: /v2/keys
+      description: Pre-key bundle management
+      operations:
+      - name: get-pre-key-bundle
+        method: GET
+        description: Get pre-key bundle for key exchange
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: profile
+      path: /v1/profile/{uuid}
+      description: User profile
+      operations:
+      - name: get-profile
+        method: GET
+        description: Get user profile
+        inputParameters:
+        - name: uuid
+          in: path
+          type: string
+          required: true
+          description: Account UUID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: signal-secure-messaging-api
-      description: "Unified REST API for Signal secure messaging server operations."
-      resources:
-        - path: /v1/accounts/identity
-          name: account-identity
-          description: "Account identity"
-          operations:
-            - method: GET
-              name: get-account-identity
-              description: "Get the current Signal account identity"
-              call: "signal-server.get-account-identity"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/accounts/attributes
-          name: account-attributes
-          description: "Account configuration"
-          operations:
-            - method: PUT
-              name: set-account-attributes
-              description: "Configure account capabilities and settings"
-              call: "signal-server.set-account-attributes"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/devices
-          name: devices
-          description: "Linked device management"
-          operations:
-            - method: GET
-              name: list-devices
-              description: "List all devices linked to the account"
-              call: "signal-server.list-devices"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/messages/{destinationUuid}
-          name: messages
-          description: "Encrypted message delivery"
-          operations:
-            - method: PUT
-              name: send-message
-              description: "Send end-to-end encrypted messages to a destination account"
-              call: "signal-server.send-message"
-              with:
-                destinationUuid: "rest.destinationUuid"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v2/keys
-          name: pre-keys
-          description: "Pre-key bundle management for Signal Protocol"
-          operations:
-            - method: GET
-              name: get-pre-key-bundle
-              description: "Get pre-key bundle for initiating a Signal Protocol session"
-              call: "signal-server.get-pre-key-bundle"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/profile/{uuid}
-          name: profile
-          description: "User profile management"
-          operations:
-            - method: GET
-              name: get-profile
-              description: "Get Signal user profile"
-              call: "signal-server.get-profile"
-              with:
-                uuid: "rest.uuid"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: signal-secure-messaging-mcp
-      transport: http
-      description: "MCP server for AI-assisted Signal secure messaging server management."
-      tools:
-        - name: get-account-identity
-          description: "Get the Signal account identity including UUID and phone number for the authenticated user"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "signal-server.get-account-identity"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: set-account-attributes
-          description: "Configure Signal account capabilities such as voice, video, and push notification settings"
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: true
-          call: "signal-server.set-account-attributes"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-linked-devices
-          description: "List all devices linked to the Signal account including device IDs and last seen timestamps"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "signal-server.list-devices"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: send-encrypted-message
-          description: "Send end-to-end encrypted Signal Protocol messages to a destination account UUID"
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: false
-          call: "signal-server.send-message"
-          with:
-            destinationUuid: "tools.destinationUuid"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-pre-key-bundle
-          description: "Retrieve pre-key bundle for establishing a new Signal Protocol encrypted session with a contact"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "signal-server.get-pre-key-bundle"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-user-profile
-          description: "Get the Signal profile for a user by their account UUID"
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "signal-server.get-profile"
-          with:
-            uuid: "tools.uuid"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: register-account
-          description: "Register a new Signal account with a phone number (for self-hosted deployments)"
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: false
-          call: "signal-server.register-account"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: signal-secure-messaging-api
+    description: Unified REST API for Signal secure messaging server operations.
+    resources:
+    - path: /v1/accounts/identity
+      name: account-identity
+      description: Account identity
+      operations:
+      - method: GET
+        name: get-account-identity
+        description: Get the current Signal account identity
+        call: signal-server.get-account-identity
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/attributes
+      name: account-attributes
+      description: Account configuration
+      operations:
+      - method: PUT
+        name: set-account-attributes
+        description: Configure account capabilities and settings
+        call: signal-server.set-account-attributes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/devices
+      name: devices
+      description: Linked device management
+      operations:
+      - method: GET
+        name: list-devices
+        description: List all devices linked to the account
+        call: signal-server.list-devices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/messages/{destinationUuid}
+      name: messages
+      description: Encrypted message delivery
+      operations:
+      - method: PUT
+        name: send-message
+        description: Send end-to-end encrypted messages to a destination account
+        call: signal-server.send-message
+        with:
+          destinationUuid: rest.destinationUuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v2/keys
+      name: pre-keys
+      description: Pre-key bundle management for Signal Protocol
+      operations:
+      - method: GET
+        name: get-pre-key-bundle
+        description: Get pre-key bundle for initiating a Signal Protocol session
+        call: signal-server.get-pre-key-bundle
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/profile/{uuid}
+      name: profile
+      description: User profile management
+      operations:
+      - method: GET
+        name: get-profile
+        description: Get Signal user profile
+        call: signal-server.get-profile
+        with:
+          uuid: rest.uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: signal-secure-messaging-mcp
+    transport: http
+    description: MCP server for AI-assisted Signal secure messaging server management.
+    tools:
+    - name: get-account-identity
+      description: Get the Signal account identity including UUID and phone number for the authenticated user
+      hints:
+        readOnly: true
+        openWorld: false
+      call: signal-server.get-account-identity
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-account-attributes
+      description: Configure Signal account capabilities such as voice, video, and push notification settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: signal-server.set-account-attributes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-linked-devices
+      description: List all devices linked to the Signal account including device IDs and last seen timestamps
+      hints:
+        readOnly: true
+        openWorld: false
+      call: signal-server.list-devices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: send-encrypted-message
+      description: Send end-to-end encrypted Signal Protocol messages to a destination account UUID
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: signal-server.send-message
+      with:
+        destinationUuid: tools.destinationUuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-pre-key-bundle
+      description: Retrieve pre-key bundle for establishing a new Signal Protocol encrypted session with a contact
+      hints:
+        readOnly: true
+        openWorld: false
+      call: signal-server.get-pre-key-bundle
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-profile
+      description: Get the Signal profile for a user by their account UUID
+      hints:
+        readOnly: true
+        openWorld: false
+      call: signal-server.get-profile
+      with:
+        uuid: tools.uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: register-account
+      description: Register a new Signal account with a phone number (for self-hosted deployments)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: signal-server.register-account
+      outputParameters:
+      - type: object
+        mapping: $.
