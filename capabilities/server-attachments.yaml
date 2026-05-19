@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Signal Server API — Attachments
+  description: 'Signal Server API — Attachments. 1 operations. Lead operation: Get attachment upload form. Self-contained
+    Naftiko capability covering one Signal business surface.'
+  tags:
+  - Signal
+  - Attachments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SIGNAL_API_KEY: SIGNAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: server-attachments
+    baseUri: https://chat.signal.org
+    description: Signal Server API — Attachments business capability. Self-contained, no shared references.
+    resources:
+    - name: v4-attachments-form-upload
+      path: /v4/attachments/form/upload
+      operations:
+      - name: getattachmentuploadform
+        method: GET
+        description: Get attachment upload form
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SIGNAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: server-attachments-rest
+    port: 8080
+    description: REST adapter for Signal Server API — Attachments. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v4/attachments/form/upload
+      name: v4-attachments-form-upload
+      description: REST surface for v4-attachments-form-upload.
+      operations:
+      - method: GET
+        name: getattachmentuploadform
+        description: Get attachment upload form
+        call: server-attachments.getattachmentuploadform
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: server-attachments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Signal Server API — Attachments. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-attachment-upload-form
+      description: Get attachment upload form
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-attachments.getattachmentuploadform
+      outputParameters:
+      - type: object
+        mapping: $.

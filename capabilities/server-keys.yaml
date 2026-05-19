@@ -1,0 +1,147 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Signal Server API — Keys
+  description: 'Signal Server API — Keys. 3 operations. Lead operation: Get pre-key counts. Self-contained Naftiko capability
+    covering one Signal business surface.'
+  tags:
+  - Signal
+  - Keys
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SIGNAL_API_KEY: SIGNAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: server-keys
+    baseUri: https://chat.signal.org
+    description: Signal Server API — Keys business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-keys
+      path: /v2/keys
+      operations:
+      - name: getprekeycount
+        method: GET
+        description: Get pre-key counts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: setkeys
+        method: PUT
+        description: Upload pre-keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-keys-identifier-deviceId
+      path: /v2/keys/{identifier}/{deviceId}
+      operations:
+      - name: getdevicekeys
+        method: GET
+        description: Get pre-key bundle for a device
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: identifier
+          in: path
+          type: string
+          description: The UUID or phone number identifying the target account.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SIGNAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: server-keys-rest
+    port: 8080
+    description: REST adapter for Signal Server API — Keys. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/keys
+      name: v2-keys
+      description: REST surface for v2-keys.
+      operations:
+      - method: GET
+        name: getprekeycount
+        description: Get pre-key counts
+        call: server-keys.getprekeycount
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: setkeys
+        description: Upload pre-keys
+        call: server-keys.setkeys
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/keys/{identifier}/{deviceid}
+      name: v2-keys-identifier-deviceid
+      description: REST surface for v2-keys-identifier-deviceId.
+      operations:
+      - method: GET
+        name: getdevicekeys
+        description: Get pre-key bundle for a device
+        call: server-keys.getdevicekeys
+        with:
+          identifier: rest.identifier
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: server-keys-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Signal Server API — Keys. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-pre-key-counts
+      description: Get pre-key counts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-keys.getprekeycount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upload-pre-keys
+      description: Upload pre-keys
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: server-keys.setkeys
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-pre-key-bundle-device
+      description: Get pre-key bundle for a device
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-keys.getdevicekeys
+      with:
+        identifier: tools.identifier
+      outputParameters:
+      - type: object
+        mapping: $.

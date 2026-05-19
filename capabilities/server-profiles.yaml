@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Signal Server API — Profiles
+  description: 'Signal Server API — Profiles. 2 operations. Lead operation: Set user profile. Self-contained Naftiko capability
+    covering one Signal business surface.'
+  tags:
+  - Signal
+  - Profiles
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SIGNAL_API_KEY: SIGNAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: server-profiles
+    baseUri: https://chat.signal.org
+    description: Signal Server API — Profiles business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-profile
+      path: /v1/profile
+      operations:
+      - name: setprofile
+        method: PUT
+        description: Set user profile
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-profile-identifier
+      path: /v1/profile/{identifier}
+      operations:
+      - name: getprofile
+        method: GET
+        description: Get a user profile
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: identifier
+          in: path
+          type: string
+          description: The UUID identifying the target account.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SIGNAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: server-profiles-rest
+    port: 8080
+    description: REST adapter for Signal Server API — Profiles. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/profile
+      name: v1-profile
+      description: REST surface for v1-profile.
+      operations:
+      - method: PUT
+        name: setprofile
+        description: Set user profile
+        call: server-profiles.setprofile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/profile/{identifier}
+      name: v1-profile-identifier
+      description: REST surface for v1-profile-identifier.
+      operations:
+      - method: GET
+        name: getprofile
+        description: Get a user profile
+        call: server-profiles.getprofile
+        with:
+          identifier: rest.identifier
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: server-profiles-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Signal Server API — Profiles. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: set-user-profile
+      description: Set user profile
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: server-profiles.setprofile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-profile
+      description: Get a user profile
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-profiles.getprofile
+      with:
+        identifier: tools.identifier
+      outputParameters:
+      - type: object
+        mapping: $.

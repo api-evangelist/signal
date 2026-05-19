@@ -1,0 +1,221 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Signal Server API — Accounts
+  description: 'Signal Server API — Accounts. 5 operations. Lead operation: Set account attributes. Self-contained Naftiko
+    capability covering one Signal business surface.'
+  tags:
+  - Signal
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SIGNAL_API_KEY: SIGNAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: server-accounts
+    baseUri: https://chat.signal.org
+    description: Signal Server API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-accounts-attributes
+      path: /v1/accounts/attributes
+      operations:
+      - name: setaccountattributes
+        method: PUT
+        description: Set account attributes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-accounts-number
+      path: /v1/accounts/number
+      operations:
+      - name: changenumber
+        method: PUT
+        description: Change account phone number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-accounts-username_hash-usernameHash
+      path: /v1/accounts/username_hash/{usernameHash}
+      operations:
+      - name: confirmusernamehash
+        method: PUT
+        description: Confirm a username hash
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: lookupusernamehash
+        method: GET
+        description: Look up account by username hash
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-accounts-whoami
+      path: /v1/accounts/whoami
+      operations:
+      - name: getaccountidentity
+        method: GET
+        description: Get current account identity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SIGNAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: server-accounts-rest
+    port: 8080
+    description: REST adapter for Signal Server API — Accounts. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/accounts/attributes
+      name: v1-accounts-attributes
+      description: REST surface for v1-accounts-attributes.
+      operations:
+      - method: PUT
+        name: setaccountattributes
+        description: Set account attributes
+        call: server-accounts.setaccountattributes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/accounts/number
+      name: v1-accounts-number
+      description: REST surface for v1-accounts-number.
+      operations:
+      - method: PUT
+        name: changenumber
+        description: Change account phone number
+        call: server-accounts.changenumber
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/accounts/username-hash/{usernamehash}
+      name: v1-accounts-username-hash-usernamehash
+      description: REST surface for v1-accounts-username_hash-usernameHash.
+      operations:
+      - method: PUT
+        name: confirmusernamehash
+        description: Confirm a username hash
+        call: server-accounts.confirmusernamehash
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: lookupusernamehash
+        description: Look up account by username hash
+        call: server-accounts.lookupusernamehash
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/accounts/whoami
+      name: v1-accounts-whoami
+      description: REST surface for v1-accounts-whoami.
+      operations:
+      - method: GET
+        name: getaccountidentity
+        description: Get current account identity
+        call: server-accounts.getaccountidentity
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: server-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Signal Server API — Accounts. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: set-account-attributes
+      description: Set account attributes
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: server-accounts.setaccountattributes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: change-account-phone-number
+      description: Change account phone number
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: server-accounts.changenumber
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: confirm-username-hash
+      description: Confirm a username hash
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: server-accounts.confirmusernamehash
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: look-up-account-username-hash
+      description: Look up account by username hash
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-accounts.lookupusernamehash
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-current-account-identity
+      description: Get current account identity
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-accounts.getaccountidentity
+      outputParameters:
+      - type: object
+        mapping: $.

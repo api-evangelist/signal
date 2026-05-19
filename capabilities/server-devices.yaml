@@ -1,0 +1,144 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Signal Server API — Devices
+  description: 'Signal Server API — Devices. 3 operations. Lead operation: List linked devices. Self-contained Naftiko capability
+    covering one Signal business surface.'
+  tags:
+  - Signal
+  - Devices
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SIGNAL_API_KEY: SIGNAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: server-devices
+    baseUri: https://chat.signal.org
+    description: Signal Server API — Devices business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-devices
+      path: /v1/devices
+      operations:
+      - name: listdevices
+        method: GET
+        description: List linked devices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-devices-link
+      path: /v1/devices/link
+      operations:
+      - name: linkdevice
+        method: PUT
+        description: Link a new device
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-devices-deviceId
+      path: /v1/devices/{deviceId}
+      operations:
+      - name: removedevice
+        method: DELETE
+        description: Remove a linked device
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SIGNAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: server-devices-rest
+    port: 8080
+    description: REST adapter for Signal Server API — Devices. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/devices
+      name: v1-devices
+      description: REST surface for v1-devices.
+      operations:
+      - method: GET
+        name: listdevices
+        description: List linked devices
+        call: server-devices.listdevices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/devices/link
+      name: v1-devices-link
+      description: REST surface for v1-devices-link.
+      operations:
+      - method: PUT
+        name: linkdevice
+        description: Link a new device
+        call: server-devices.linkdevice
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/devices/{deviceid}
+      name: v1-devices-deviceid
+      description: REST surface for v1-devices-deviceId.
+      operations:
+      - method: DELETE
+        name: removedevice
+        description: Remove a linked device
+        call: server-devices.removedevice
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: server-devices-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Signal Server API — Devices. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-linked-devices
+      description: List linked devices
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: server-devices.listdevices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: link-new-device
+      description: Link a new device
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: server-devices.linkdevice
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-linked-device
+      description: Remove a linked device
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: server-devices.removedevice
+      outputParameters:
+      - type: object
+        mapping: $.
