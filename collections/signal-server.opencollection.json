@@ -1,0 +1,389 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a new account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.signal.org/v1/registration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new Signal account with a phone number. Initiates the verification process by sending an SMS or voice call with a verification code to the provided phone number."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current account identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/accounts/whoami"
+          },
+          "docs": "Returns the account identity information for the currently authenticated user, including the account UUID and phone number."
+        },
+        {
+          "info": {
+            "name": "Set account attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/accounts/attributes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the account attributes for the authenticated user, including registration ID, voice and video capabilities, fetches messages setting, and other account-level configuration."
+        },
+        {
+          "info": {
+            "name": "Look up account by username hash",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/accounts/username_hash/:usernameHash",
+            "params": [
+              {
+                "name": "usernameHash",
+                "value": "",
+                "type": "path",
+                "description": "The Base64url-encoded SHA-256 hash of the username."
+              }
+            ]
+          },
+          "docs": "Looks up an account by its username hash and returns the account UUID if found."
+        },
+        {
+          "info": {
+            "name": "Confirm a username hash",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/accounts/username_hash/:usernameHash",
+            "params": [
+              {
+                "name": "usernameHash",
+                "value": "",
+                "type": "path",
+                "description": "The Base64url-encoded SHA-256 hash of the username."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirms and sets a username hash for the authenticated account. The username hash is a privacy-preserving representation of the username."
+        },
+        {
+          "info": {
+            "name": "Change account phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/accounts/number",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the phone number associated with the authenticated account. Requires re-verification of the new phone number."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List linked devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/devices"
+          },
+          "docs": "Returns a list of all devices currently linked to the authenticated account, including device IDs, names, and last seen timestamps."
+        },
+        {
+          "info": {
+            "name": "Link a new device",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/devices/link",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Links a new device to the authenticated account. The new device must have already been provisioned with a device code obtained through the provisioning process."
+        },
+        {
+          "info": {
+            "name": "Remove a linked device",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://chat.signal.org/v1/devices/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The numeric device identifier. Device 1 is always the primary device."
+              }
+            ]
+          },
+          "docs": "Removes a linked device from the authenticated account. This unlinks the device and invalidates its credentials."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send an encrypted message",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/messages/:destinationUuid",
+            "params": [
+              {
+                "name": "destinationUuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the destination account."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends one or more encrypted messages to the specified destination account identified by UUID. Messages are encrypted using the Signal Protocol and include envelope metadata for delivery. The server routes messages to the recipient's devices."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get pre-key counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v2/keys"
+          },
+          "docs": "Returns the number of pre-keys currently stored on the server for the authenticated device. Clients use this to determine whether they need to upload additional pre-keys."
+        },
+        {
+          "info": {
+            "name": "Upload pre-keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v2/keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads a batch of pre-keys, a signed pre-key, and optionally a last-resort Kyber pre-key for the authenticated device. These keys are used by other clients to establish Signal Protocol sessions."
+        },
+        {
+          "info": {
+            "name": "Get pre-key bundle for a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v2/keys/:identifier/:deviceId",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "The UUID or phone number identifying the target account."
+              },
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The numeric device identifier. Device 1 is always the primary device."
+              }
+            ]
+          },
+          "docs": "Retrieves a pre-key bundle for a specific device belonging to the identified account. The bundle includes a pre-key, signed pre-key, and identity key needed to establish a Signal Protocol session."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/profile/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "The UUID identifying the target account."
+              }
+            ]
+          },
+          "docs": "Retrieves the profile for the specified account, including the encrypted profile name, avatar URL, identity key, and capabilities. Profile data is encrypted with the profile key shared between contacts."
+        },
+        {
+          "info": {
+            "name": "Set user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/profile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the profile for the authenticated account. Profile data including name, about text, emoji, and payment address are encrypted with the account's profile key before transmission."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Attachments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get attachment upload form",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v4/attachments/form/upload"
+          },
+          "docs": "Returns a pre-signed upload form that clients use to upload attachment data directly to the storage service. The form includes the upload URL, headers, and the attachment identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stickers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get sticker pack upload form",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/sticker/pack/form/:packSize",
+            "params": [
+              {
+                "name": "packSize",
+                "value": "",
+                "type": "path",
+                "description": "The number of stickers in the pack."
+              }
+            ]
+          },
+          "docs": "Returns a pre-signed upload form for uploading a sticker pack with the specified number of stickers."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Certificates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a sealed sender delivery certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/certificate/delivery",
+            "params": [
+              {
+                "name": "includeE164",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the E164 phone number in the certificate."
+              }
+            ]
+          },
+          "docs": "Returns a delivery certificate for the authenticated account. This certificate is used in sealed sender message delivery, which hides the sender's identity from the server during message transmission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

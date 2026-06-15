@@ -1,0 +1,3267 @@
+{
+  "item": [
+    {
+      "id": "73717902-9614-417d-bb7e-4f519c96acad",
+      "name": "Accounts",
+      "description": {
+        "content": "Account management endpoints for configuring account settings, managing capabilities, and account lifecycle operations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8115e1a8-7420-4136-a59b-ac229da839f0",
+          "name": "Get current account identity",
+          "request": {
+            "name": "Get current account identity",
+            "description": {
+              "content": "Returns the account identity information for the currently authenticated user, including the account UUID and phone number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "accounts",
+                "whoami"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "35e693b8-ab27-4bcd-815b-99c03e00391f",
+              "name": "Account identity returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "whoami"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"0479dd47-eb2a-0302-0e97-414870a6c88e\",\n  \"number\": \"string\",\n  \"pni\": \"aa72b196-fad3-bee6-2d97-8e0a41827fc3\",\n  \"usernameHash\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5207dfa9-8f10-424a-b9ad-ca81ea88113a",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "whoami"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a6c0d9ea-53f4-4681-925b-aa2106ba7878",
+          "name": "Set account attributes",
+          "request": {
+            "name": "Set account attributes",
+            "description": {
+              "content": "Updates the account attributes for the authenticated user, including registration ID, voice and video capabilities, fetches messages setting, and other account-level configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "accounts",
+                "attributes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fetchesMessages\": \"<boolean>\",\n  \"registrationId\": \"<integer>\",\n  \"pniRegistrationId\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"capabilities\": {\n    \"storage\": \"<boolean>\",\n    \"transfer\": \"<boolean>\",\n    \"paymentActivation\": \"<boolean>\"\n  },\n  \"unidentifiedAccessKey\": \"<string>\",\n  \"unrestrictedUnidentifiedAccess\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b66b995f-801c-48e5-ac2c-d2004bbdaa39",
+              "name": "Account attributes updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "attributes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fetchesMessages\": \"<boolean>\",\n  \"registrationId\": \"<integer>\",\n  \"pniRegistrationId\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"capabilities\": {\n    \"storage\": \"<boolean>\",\n    \"transfer\": \"<boolean>\",\n    \"paymentActivation\": \"<boolean>\"\n  },\n  \"unidentifiedAccessKey\": \"<string>\",\n  \"unrestrictedUnidentifiedAccess\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4f19e136-f5cc-45e1-a1d9-c53dcf6d7abd",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "attributes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fetchesMessages\": \"<boolean>\",\n  \"registrationId\": \"<integer>\",\n  \"pniRegistrationId\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"capabilities\": {\n    \"storage\": \"<boolean>\",\n    \"transfer\": \"<boolean>\",\n    \"paymentActivation\": \"<boolean>\"\n  },\n  \"unidentifiedAccessKey\": \"<string>\",\n  \"unrestrictedUnidentifiedAccess\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4708e20f-e9e1-46d1-a9d5-d52a2dde49bc",
+          "name": "Confirm a username hash",
+          "request": {
+            "name": "Confirm a username hash",
+            "description": {
+              "content": "Confirms and sets a username hash for the authenticated account. The username hash is a privacy-preserving representation of the username.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "accounts",
+                "username_hash",
+                ":usernameHash"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "usernameHash",
+                  "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usernameHash\": \"<string>\",\n  \"zkProof\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bfac3c2a-fed3-4d9c-9ec5-ca037c877dfd",
+              "name": "Username hash confirmed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "username_hash",
+                    ":usernameHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "usernameHash",
+                      "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usernameHash\": \"<string>\",\n  \"zkProof\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d11a2547-b357-4401-8e02-446b328972ec",
+              "name": "Username hash already taken",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "username_hash",
+                    ":usernameHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "usernameHash",
+                      "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usernameHash\": \"<string>\",\n  \"zkProof\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "325fefd5-48c5-4188-92b4-122f7769b876",
+              "name": "Username hash reservation expired",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "username_hash",
+                    ":usernameHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "usernameHash",
+                      "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usernameHash\": \"<string>\",\n  \"zkProof\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91e6c307-37ae-4720-ab32-a33432b7ebcb",
+          "name": "Look up account by username hash",
+          "request": {
+            "name": "Look up account by username hash",
+            "description": {
+              "content": "Looks up an account by its username hash and returns the account UUID if found.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "accounts",
+                "username_hash",
+                ":usernameHash"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "usernameHash",
+                  "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ecda558b-a108-474a-9ce3-efaef9e4be9e",
+              "name": "Account found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "username_hash",
+                    ":usernameHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "usernameHash",
+                      "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"cb7749a5-01f3-6f29-218e-c7ddd90c8b1f\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8efe5f44-7452-46e9-8a9c-496c1c3394c9",
+              "name": "No account found for username hash",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "username_hash",
+                    ":usernameHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "usernameHash",
+                      "description": "(Required) The Base64url-encoded SHA-256 hash of the username."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c7c4405-e771-41e3-84ca-c8ddc1728833",
+          "name": "Change account phone number",
+          "request": {
+            "name": "Change account phone number",
+            "description": {
+              "content": "Changes the phone number associated with the authenticated account. Requires re-verification of the new phone number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "accounts",
+                "number"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"<string>\",\n  \"registrationLock\": \"<string>\",\n  \"pniIdentityKey\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3b73a170-1c3d-409e-837b-753c042b597c",
+              "name": "Phone number changed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"number\": \"<string>\",\n  \"registrationLock\": \"<string>\",\n  \"pniIdentityKey\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b9631be2-9243-4fdd-9b89-bcecb6e22a05",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"number\": \"<string>\",\n  \"registrationLock\": \"<string>\",\n  \"pniIdentityKey\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e447effe-7946-47bb-afad-b9c97c1c9a23",
+              "name": "Number already in use",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "accounts",
+                    "number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"number\": \"<string>\",\n  \"registrationLock\": \"<string>\",\n  \"pniIdentityKey\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "f763da76-1c47-40a9-b0b3-248880bedc0b",
+      "name": "Attachments",
+      "description": {
+        "content": "Attachment handling endpoints for uploading and downloading media files associated with messages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "61eae5f7-c200-4ac4-9f1a-e9eb95fec0ef",
+          "name": "Get attachment upload form",
+          "request": {
+            "name": "Get attachment upload form",
+            "description": {
+              "content": "Returns a pre-signed upload form that clients use to upload attachment data directly to the storage service. The form includes the upload URL, headers, and the attachment identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v4",
+                "attachments",
+                "form",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0512d1b-c55f-4a20-994a-bd6ada4d4128",
+              "name": "Upload form returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "attachments",
+                    "form",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cdn\": 8592,\n  \"key\": \"string\",\n  \"headers\": {\n    \"key_0\": \"string\"\n  },\n  \"signedUploadLocation\": \"http://DFnNgNlBIGImtJxq.giBnJDCBbYHPx-A,ERcsg\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a70f15d-22c7-4c0f-a6ef-29ffba9a254e",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "attachments",
+                    "form",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "42a18ecf-282a-4c20-8982-aaf244468d10",
+      "name": "Certificates",
+      "description": {
+        "content": "Certificate endpoints for retrieving delivery certificates used in sealed sender message delivery.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8382cc53-8d28-4a31-b9e5-404e1709cce2",
+          "name": "Get a sealed sender delivery certificate",
+          "request": {
+            "name": "Get a sealed sender delivery certificate",
+            "description": {
+              "content": "Returns a delivery certificate for the authenticated account. This certificate is used in sealed sender message delivery, which hides the sender's identity from the server during message transmission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "certificate",
+                "delivery"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "includeE164",
+                  "value": "true",
+                  "description": "Whether to include the E164 phone number in the certificate."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf639cf9-d7c6-412b-9e79-b826c6414621",
+              "name": "Delivery certificate returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "certificate",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeE164",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"certificate\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31396417-cb33-479d-98c2-cc65c1c02024",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "certificate",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeE164",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "a6bd08d9-42d8-4d72-8d82-7f1a0f272bb7",
+      "name": "Devices",
+      "description": {
+        "content": "Device management endpoints for linking, unlinking, and managing devices associated with a Signal account.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "af5a53f7-413c-43ed-8b3c-4eb277845d09",
+          "name": "List linked devices",
+          "request": {
+            "name": "List linked devices",
+            "description": {
+              "content": "Returns a list of all devices currently linked to the authenticated account, including device IDs, names, and last seen timestamps.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "devices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2be91740-2ddd-4819-aee7-0e1ed22a1c9f",
+              "name": "Device list returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"devices\": [\n    {\n      \"id\": 2871,\n      \"name\": \"string\",\n      \"lastSeen\": 4706,\n      \"created\": 7786\n    },\n    {\n      \"id\": 3446,\n      \"name\": \"string\",\n      \"lastSeen\": 8636,\n      \"created\": 2900\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eef74e6e-1cb0-4e4e-a8f2-7e996b28ea6a",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02604481-bc2a-4eab-a281-c654808d2c05",
+          "name": "Link a new device",
+          "request": {
+            "name": "Link a new device",
+            "description": {
+              "content": "Links a new device to the authenticated account. The new device must have already been provisioned with a device code obtained through the provisioning process.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "devices",
+                "link"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"verificationCode\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": \"<boolean>\",\n    \"registrationId\": \"<integer>\",\n    \"pniRegistrationId\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"capabilities\": {\n      \"storage\": \"<boolean>\",\n      \"transfer\": \"<boolean>\",\n      \"paymentActivation\": \"<boolean>\"\n    },\n    \"unidentifiedAccessKey\": \"<string>\",\n    \"unrestrictedUnidentifiedAccess\": \"<boolean>\"\n  },\n  \"aciSignedPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  },\n  \"pniSignedPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  },\n  \"aciPqLastResortPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  },\n  \"pniPqLastResortPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4601bc0a-27ac-4c42-9101-9a7e1531943b",
+              "name": "Device linked successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices",
+                    "link"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"verificationCode\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6878,\n    \"pniRegistrationId\": 9454,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"aciSignedPreKey\": {\n    \"keyId\": 2599,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pniSignedPreKey\": {\n    \"keyId\": 7438,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"aciPqLastResortPreKey\": {\n    \"keyId\": 485,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pniPqLastResortPreKey\": {\n    \"keyId\": 5586,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deviceId\": 619\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51073f0b-9ad6-4da3-a9ea-e22e61ce0769",
+              "name": "Maximum number of linked devices reached",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices",
+                    "link"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"verificationCode\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6878,\n    \"pniRegistrationId\": 9454,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"aciSignedPreKey\": {\n    \"keyId\": 2599,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pniSignedPreKey\": {\n    \"keyId\": 7438,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"aciPqLastResortPreKey\": {\n    \"keyId\": 485,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pniPqLastResortPreKey\": {\n    \"keyId\": 5586,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "21bf7969-5f82-49c8-afb9-9a24e610654f",
+              "name": "Invalid device verification code",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices",
+                    "link"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"verificationCode\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6878,\n    \"pniRegistrationId\": 9454,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"aciSignedPreKey\": {\n    \"keyId\": 2599,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pniSignedPreKey\": {\n    \"keyId\": 7438,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"aciPqLastResortPreKey\": {\n    \"keyId\": 485,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pniPqLastResortPreKey\": {\n    \"keyId\": 5586,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0258a66c-a9a8-43a9-8e61-90458070a7ca",
+          "name": "Remove a linked device",
+          "request": {
+            "name": "Remove a linked device",
+            "description": {
+              "content": "Removes a linked device from the authenticated account. This unlinks the device and invalidates its credentials.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "devices",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "deviceId",
+                  "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "653b4edb-0fd6-43b1-b6f0-4c0b652e4a8e",
+              "name": "Device removed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7af83428-0774-46c5-91c4-7a05e9d645b2",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d09831e6-686a-4147-a8de-e7ea8a91c629",
+              "name": "Device not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "devices",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "8ae01a2f-5526-418e-b06e-dc6c2ffa3238",
+      "name": "Keys",
+      "description": {
+        "content": "Pre-key bundle management endpoints for uploading and retrieving public key material used in the Signal Protocol key exchange.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6e7146a7-5906-4799-b08c-c97ddb07ec0d",
+          "name": "Get pre-key counts",
+          "request": {
+            "name": "Get pre-key counts",
+            "description": {
+              "content": "Returns the number of pre-keys currently stored on the server for the authenticated device. Clients use this to determine whether they need to upload additional pre-keys.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d8afe0af-092d-4bb4-8178-cc031dd12584",
+              "name": "Pre-key count returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 9097,\n  \"pqCount\": 6755\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73173b88-5f6a-4e7e-a22c-8b76486c311d",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5bd024c7-74e2-4ec6-9f7d-3d2887569a72",
+          "name": "Upload pre-keys",
+          "request": {
+            "name": "Upload pre-keys",
+            "description": {
+              "content": "Uploads a batch of pre-keys, a signed pre-key, and optionally a last-resort Kyber pre-key for the authenticated device. These keys are used by other clients to establish Signal Protocol sessions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preKeys\": [\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\"\n    },\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\"\n    }\n  ],\n  \"signedPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  },\n  \"pqPreKeys\": [\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\",\n      \"signature\": \"<string>\"\n    },\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\",\n      \"signature\": \"<string>\"\n    }\n  ],\n  \"pqLastResortPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "992b7fdd-8736-418b-8d3d-b3d8dcc57e29",
+              "name": "Keys uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"preKeys\": [\n    {\n      \"keyId\": 2885,\n      \"publicKey\": \"string\"\n    },\n    {\n      \"keyId\": 4308,\n      \"publicKey\": \"string\"\n    }\n  ],\n  \"signedPreKey\": {\n    \"keyId\": 7493,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pqPreKeys\": [\n    {\n      \"keyId\": 2452,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    },\n    {\n      \"keyId\": 3051,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    }\n  ],\n  \"pqLastResortPreKey\": {\n    \"keyId\": 1944,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "183f0e20-8a94-4fd7-884a-515fd2864a3a",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"preKeys\": [\n    {\n      \"keyId\": 2885,\n      \"publicKey\": \"string\"\n    },\n    {\n      \"keyId\": 4308,\n      \"publicKey\": \"string\"\n    }\n  ],\n  \"signedPreKey\": {\n    \"keyId\": 7493,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pqPreKeys\": [\n    {\n      \"keyId\": 2452,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    },\n    {\n      \"keyId\": 3051,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    }\n  ],\n  \"pqLastResortPreKey\": {\n    \"keyId\": 1944,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2a43649-56a4-4b71-a4b5-4d2187ac0bda",
+          "name": "Get pre-key bundle for a device",
+          "request": {
+            "name": "Get pre-key bundle for a device",
+            "description": {
+              "content": "Retrieves a pre-key bundle for a specific device belonging to the identified account. The bundle includes a pre-key, signed pre-key, and identity key needed to establish a Signal Protocol session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "keys",
+                ":identifier",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "identifier",
+                  "description": "(Required) The UUID or phone number identifying the target account."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "deviceId",
+                  "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69d71a00-2ebc-4915-8f95-9ca4fda22285",
+              "name": "Pre-key bundle returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys",
+                    ":identifier",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID or phone number identifying the target account."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"identityKey\": \"string\",\n  \"devices\": [\n    {\n      \"deviceId\": 4054,\n      \"registrationId\": 2709,\n      \"signedPreKey\": {\n        \"keyId\": 1410,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      },\n      \"preKey\": {\n        \"keyId\": 9581,\n        \"publicKey\": \"string\"\n      },\n      \"pqPreKey\": {\n        \"keyId\": 7532,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      }\n    },\n    {\n      \"deviceId\": 1392,\n      \"registrationId\": 2765,\n      \"signedPreKey\": {\n        \"keyId\": 8829,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      },\n      \"preKey\": {\n        \"keyId\": 4383,\n        \"publicKey\": \"string\"\n      },\n      \"pqPreKey\": {\n        \"keyId\": 7869,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32653e99-7854-4789-ad4e-296738bd78ba",
+              "name": "Account or device not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys",
+                    ":identifier",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID or phone number identifying the target account."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c647e4bf-0df8-4260-89e9-ac6ab0592c8d",
+      "name": "Messages",
+      "description": {
+        "content": "Message sending and receiving endpoints for delivering encrypted messages between Signal users.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f69f3054-466f-41f0-801a-d384e1865b7e",
+          "name": "Send an encrypted message",
+          "request": {
+            "name": "Send an encrypted message",
+            "description": {
+              "content": "Sends one or more encrypted messages to the specified destination account identified by UUID. Messages are encrypted using the Signal Protocol and include envelope metadata for delivery. The server routes messages to the recipient's devices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "messages",
+                ":destinationUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "destinationUuid",
+                  "description": "(Required) The UUID of the destination account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [\n    {\n      \"type\": \"<integer>\",\n      \"destinationDeviceId\": \"<long>\",\n      \"content\": \"<string>\",\n      \"destinationRegistrationId\": \"<integer>\"\n    },\n    {\n      \"type\": \"<integer>\",\n      \"destinationDeviceId\": \"<long>\",\n      \"content\": \"<string>\",\n      \"destinationRegistrationId\": \"<integer>\"\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "36f0fd1d-c77d-43fa-b496-1e8c170c8865",
+              "name": "Messages accepted for delivery",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 9665,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1769\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 690,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 8064\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"needsSync\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b31299b0-7cfe-4d0d-9b69-01f173aa6280",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 9665,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1769\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 690,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 8064\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3730823f-6a4b-42f8-9b15-5bf69061dd0b",
+              "name": "Destination account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 9665,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1769\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 690,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 8064\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bb1f4e07-f282-4672-b771-5c620cc3ab4b",
+              "name": "Mismatched devices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 9665,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1769\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 690,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 8064\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"missingDevices\": [\n    3953,\n    4753\n  ],\n  \"extraDevices\": [\n    9995,\n    8008\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e91868c-3762-4556-af2e-81a01df6bbce",
+              "name": "Stale devices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 9665,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1769\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 690,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 8064\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"staleDevices\": [\n    9725,\n    6705\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c69b50c6-f5b4-4ff8-9590-7ac00766c83a",
+      "name": "Profiles",
+      "description": {
+        "content": "Profile management endpoints for setting and retrieving user profile information including names, avatars, and capabilities.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a1b689b2-7033-4fdd-9c3e-bc0969f4b12d",
+          "name": "Get a user profile",
+          "request": {
+            "name": "Get a user profile",
+            "description": {
+              "content": "Retrieves the profile for the specified account, including the encrypted profile name, avatar URL, identity key, and capabilities. Profile data is encrypted with the profile key shared between contacts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "profile",
+                ":identifier"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "identifier",
+                  "description": "(Required) The UUID identifying the target account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d3459415-3e58-4f34-9031-95a9a763f596",
+              "name": "Profile returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "profile",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID identifying the target account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"identityKey\": \"string\",\n  \"name\": \"string\",\n  \"about\": \"string\",\n  \"aboutEmoji\": \"string\",\n  \"avatar\": \"string\",\n  \"unidentifiedAccess\": \"string\",\n  \"unrestrictedUnidentifiedAccess\": true,\n  \"capabilities\": {},\n  \"credential\": \"string\",\n  \"uuid\": \"934c8854-02c9-f224-ee7c-ee1e9b3163da\",\n  \"paymentAddress\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "228bbc47-b78f-4c77-a6ff-02b4c0bfd9be",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "profile",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID identifying the target account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "29163af8-50dd-4bb9-ab47-23593619ceea",
+              "name": "Profile not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "profile",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID identifying the target account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "975cf49f-bb7e-4c6f-8db3-5b0e3fd59beb",
+          "name": "Set user profile",
+          "request": {
+            "name": "Set user profile",
+            "description": {
+              "content": "Updates the profile for the authenticated account. Profile data including name, about text, emoji, and payment address are encrypted with the account's profile key before transmission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "profile"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"about\": \"<string>\",\n  \"aboutEmoji\": \"<string>\",\n  \"paymentAddress\": \"<string>\",\n  \"avatar\": \"<boolean>\",\n  \"commitment\": \"<string>\",\n  \"version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0684a65e-4047-4661-a656-5162af9985b8",
+              "name": "Profile updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "profile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"about\": \"<string>\",\n  \"aboutEmoji\": \"<string>\",\n  \"paymentAddress\": \"<string>\",\n  \"avatar\": \"<boolean>\",\n  \"commitment\": \"<string>\",\n  \"version\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ab91072b-6f1d-427c-b9df-7fecac38d60c",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "profile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"about\": \"<string>\",\n  \"aboutEmoji\": \"<string>\",\n  \"paymentAddress\": \"<string>\",\n  \"avatar\": \"<boolean>\",\n  \"commitment\": \"<string>\",\n  \"version\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "27e92e3d-e463-4b5a-93d1-59004ef50e70",
+      "name": "Registration",
+      "description": {
+        "content": "Account registration endpoints for creating new Signal accounts via phone number verification.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d4e71f4b-5895-4059-9c96-1f6d50c718e4",
+          "name": "Register a new account",
+          "request": {
+            "name": "Register a new account",
+            "description": {
+              "content": "Registers a new Signal account with a phone number. Initiates the verification process by sending an SMS or voice call with a verification code to the provided phone number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "registration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": \"<boolean>\",\n    \"registrationId\": \"<integer>\",\n    \"pniRegistrationId\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"capabilities\": {\n      \"storage\": \"<boolean>\",\n      \"transfer\": \"<boolean>\",\n      \"paymentActivation\": \"<boolean>\"\n    },\n    \"unidentifiedAccessKey\": \"<string>\",\n    \"unrestrictedUnidentifiedAccess\": \"<boolean>\"\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "38d28b11-a1f0-4f27-8a59-6d555481580e",
+              "name": "Registration initiated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 4136,\n    \"pniRegistrationId\": 4337,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": false,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": false\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"468f8cf9-28f5-1a8c-cda1-ece3c1da46b7\",\n  \"number\": \"string\",\n  \"pni\": \"fd9aa20b-e50c-562c-b2a2-e2da7f83ddce\",\n  \"storageCapable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38652d42-4332-43d1-85dc-df2ca12e4fb2",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 4136,\n    \"pniRegistrationId\": 4337,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": false,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": false\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "59686bc6-bf4b-49ce-9ca1-21c5de9e8b4a",
+              "name": "Account already exists or number is rate-limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 4136,\n    \"pniRegistrationId\": 4337,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": false,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": false\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "15085058-6197-4eae-abf4-8ce8baa35a99",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 4136,\n    \"pniRegistrationId\": 4337,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": false,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": false\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "f619392b-740a-4840-bb2e-1b690ede081c",
+      "name": "Stickers",
+      "description": {
+        "content": "Sticker pack management endpoints for uploading and retrieving sticker packs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2b4bec42-73c9-4c7c-adda-4aa76ea3dd6a",
+          "name": "Get sticker pack upload form",
+          "request": {
+            "name": "Get sticker pack upload form",
+            "description": {
+              "content": "Returns a pre-signed upload form for uploading a sticker pack with the specified number of stickers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sticker",
+                "pack",
+                "form",
+                ":packSize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "packSize",
+                  "description": "(Required) The number of stickers in the pack."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ebde4611-81ef-42ea-b088-4c111f58e81b",
+              "name": "Upload form returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sticker",
+                    "pack",
+                    "form",
+                    ":packSize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "packSize",
+                      "description": "(Required) The number of stickers in the pack."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"packId\": \"string\",\n  \"manifest\": {\n    \"cdn\": 7674,\n    \"key\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"signedUploadLocation\": \"https://KhgFdvbvSvbuorYBOyvGTpnfu.fnqq+H2VAigCSZOdt6RkRfzmj4JhJqS-kL5Zs9nmsuws\"\n  },\n  \"stickers\": [\n    {\n      \"cdn\": 3697,\n      \"key\": \"string\",\n      \"headers\": {\n        \"key_0\": \"string\"\n      },\n      \"signedUploadLocation\": \"http://pdxSSobtmIoJNtsyXAUoJLIIC.npccaRoA5.cjsd6cfUkgLIGfBNHubJNBekphb,jUak8\"\n    },\n    {\n      \"cdn\": 8979,\n      \"key\": \"string\",\n      \"headers\": {\n        \"key_0\": \"string\"\n      },\n      \"signedUploadLocation\": \"https://ftliYmdZgyLQxqzEoPATyZEJkswUlap.sylnavMZHSh+5xb\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0af80713-d89f-422b-a614-ac793e1256ee",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sticker",
+                    "pack",
+                    "form",
+                    ":packSize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "packSize",
+                      "description": "(Required) The number of stickers in the pack."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.signal.org",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8a7bc501-f9c1-4878-84d4-b5a6f1003994",
+    "name": "Signal Server API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.\n\nContact Support:\n Name: Signal Support",
+      "type": "text/plain"
+    }
+  }
+}
