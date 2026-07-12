@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: signal.org
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  5 17:16:42 2026 GMT
+  hsts: false
+- host: chat.signal.org
+  https: true
+  tls_cert_error: '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get
+    local issuer certificate (_ssl.c:1082)'
+  hsts: null
+domains:
+- domain: signal.org
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

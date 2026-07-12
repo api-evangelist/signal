@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/signal-server-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic authentication using the account UUID (or phone number) and password.
+    The password is established during account registration.
+  sources:
+  - openapi/signal-server-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token authentication used for certain provisioning and registration flows.
+  sources:
+  - openapi/signal-server-openapi.yml
