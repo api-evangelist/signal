@@ -158,6 +158,8 @@ description: >-
   Signal Protocol is the most widely deployed end-to-end encryption protocol in the world, used by Signal, WhatsApp,
   Google Messages, and other platforms.
 common:
+  - type: AgenticAccess
+    url: agentic-access/signal-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/signal-vulnerability-disclosure.yml
   - type: DomainSecurity
