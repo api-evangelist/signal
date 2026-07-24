@@ -1,0 +1,201 @@
+openapi: 3.1.0
+info:
+  title: Signal Server Accounts Keys API
+  description: The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+- url: https://chat.signal.org
+  description: Signal Production Server
+security:
+- basicAuth: []
+tags:
+- name: Keys
+  description: Pre-key bundle management endpoints for uploading and retrieving public key material used in the Signal Protocol key exchange.
+paths:
+  /v2/keys:
+    get:
+      operationId: getPreKeyCount
+      summary: Get pre-key counts
+      description: Returns the number of pre-keys currently stored on the server for the authenticated device. Clients use this to determine whether they need to upload additional pre-keys.
+      tags:
+      - Keys
+      responses:
+        '200':
+          description: Pre-key count returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreKeyCount'
+        '401':
+          description: Authentication required
+    put:
+      operationId: setKeys
+      summary: Upload pre-keys
+      description: Uploads a batch of pre-keys, a signed pre-key, and optionally a last-resort Kyber pre-key for the authenticated device. These keys are used by other clients to establish Signal Protocol sessions.
+      tags:
+      - Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetKeysRequest'
+      responses:
+        '204':
+          description: Keys uploaded successfully
+        '401':
+          description: Authentication required
+  /v2/keys/{identifier}/{deviceId}:
+    get:
+      operationId: getDeviceKeys
+      summary: Get pre-key bundle for a device
+      description: Retrieves a pre-key bundle for a specific device belonging to the identified account. The bundle includes a pre-key, signed pre-key, and identity key needed to establish a Signal Protocol session.
+      tags:
+      - Keys
+      parameters:
+      - name: identifier
+        in: path
+        required: true
+        description: The UUID or phone number identifying the target account.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Pre-key bundle returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreKeyBundle'
+        '404':
+          description: Account or device not found
+components:
+  schemas:
+    PreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded public key.
+    PreKeyCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of one-time pre-keys remaining on the server.
+        pqCount:
+          type: integer
+          description: The number of post-quantum (Kyber) one-time pre-keys remaining.
+    DevicePreKeyBundle:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          description: The device identifier.
+        registrationId:
+          type: integer
+          description: The device's registration ID.
+        signedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        preKey:
+          $ref: '#/components/schemas/PreKey'
+        pqPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    PreKeyBundle:
+      type: object
+      properties:
+        identityKey:
+          type: string
+          description: The Base64-encoded identity public key for the account.
+        devices:
+          type: array
+          description: Pre-key bundles for each of the account's devices.
+          items:
+            $ref: '#/components/schemas/DevicePreKeyBundle'
+    SetKeysRequest:
+      type: object
+      properties:
+        preKeys:
+          type: array
+          description: A list of one-time EC pre-keys to upload.
+          items:
+            $ref: '#/components/schemas/PreKey'
+        signedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        pqPreKeys:
+          type: array
+          description: A list of one-time post-quantum (Kyber) pre-keys to upload.
+          items:
+            $ref: '#/components/schemas/KyberPreKey'
+        pqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    KyberPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The Kyber pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded Kyber public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the Kyber public key.
+    SignedPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The signed pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the public key.
+  parameters:
+    deviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The numeric device identifier. Device 1 is always the primary device.
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the account UUID (or phone number) and password. The password is established during account registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication used for certain provisioning and registration flows.
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server

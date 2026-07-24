@@ -1,0 +1,220 @@
+openapi: 3.1.0
+info:
+  title: Signal Server Accounts Devices API
+  description: The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+- url: https://chat.signal.org
+  description: Signal Production Server
+security:
+- basicAuth: []
+tags:
+- name: Devices
+  description: Device management endpoints for linking, unlinking, and managing devices associated with a Signal account.
+paths:
+  /v1/devices:
+    get:
+      operationId: listDevices
+      summary: List linked devices
+      description: Returns a list of all devices currently linked to the authenticated account, including device IDs, names, and last seen timestamps.
+      tags:
+      - Devices
+      responses:
+        '200':
+          description: Device list returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        '401':
+          description: Authentication required
+  /v1/devices/link:
+    put:
+      operationId: linkDevice
+      summary: Link a new device
+      description: Links a new device to the authenticated account. The new device must have already been provisioned with a device code obtained through the provisioning process.
+      tags:
+      - Devices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkDeviceRequest'
+      responses:
+        '200':
+          description: Device linked successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceResponse'
+        '403':
+          description: Maximum number of linked devices reached
+        '422':
+          description: Invalid device verification code
+  /v1/devices/{deviceId}:
+    delete:
+      operationId: removeDevice
+      summary: Remove a linked device
+      description: Removes a linked device from the authenticated account. This unlinks the device and invalidates its credentials.
+      tags:
+      - Devices
+      parameters:
+      - $ref: '#/components/parameters/deviceId'
+      responses:
+        '204':
+          description: Device removed successfully
+        '401':
+          description: Authentication required
+        '404':
+          description: Device not found
+components:
+  schemas:
+    DeviceResponse:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          description: The numeric device identifier assigned to the newly linked device.
+    AccountAttributes:
+      type: object
+      properties:
+        fetchesMessages:
+          type: boolean
+          description: Whether the device fetches messages via WebSocket rather than receiving push notifications.
+        registrationId:
+          type: integer
+          description: The Signal Protocol registration ID for this device.
+        pniRegistrationId:
+          type: integer
+          description: The PNI registration ID for this device.
+        name:
+          type: string
+          description: The encrypted device name, Base64-encoded.
+        capabilities:
+          type: object
+          description: Account capability flags indicating supported features.
+          properties:
+            storage:
+              type: boolean
+              description: Whether the account supports secure value recovery and storage service.
+            transfer:
+              type: boolean
+              description: Whether the device supports account transfer.
+            paymentActivation:
+              type: boolean
+              description: Whether the account supports payment activation.
+        unidentifiedAccessKey:
+          type: string
+          description: The Base64-encoded unidentified access key for sealed sender.
+        unrestrictedUnidentifiedAccess:
+          type: boolean
+          description: Whether any sender can use sealed sender without the access key.
+    LinkDeviceRequest:
+      type: object
+      required:
+      - verificationCode
+      - accountAttributes
+      properties:
+        verificationCode:
+          type: string
+          description: The device verification code obtained during provisioning.
+        accountAttributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        aciSignedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        pniSignedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        aciPqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+        pniPqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    Device:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The numeric device identifier. Primary device is always 1.
+        name:
+          type: string
+          description: The encrypted device name, Base64-encoded.
+        lastSeen:
+          type: integer
+          format: int64
+          description: Unix timestamp in milliseconds of when the device last connected.
+        created:
+          type: integer
+          format: int64
+          description: Unix timestamp in milliseconds of when the device was linked.
+    DeviceList:
+      type: object
+      properties:
+        devices:
+          type: array
+          description: List of devices linked to the account.
+          items:
+            $ref: '#/components/schemas/Device'
+    KyberPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The Kyber pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded Kyber public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the Kyber public key.
+    SignedPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The signed pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the public key.
+  parameters:
+    deviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The numeric device identifier. Device 1 is always the primary device.
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the account UUID (or phone number) and password. The password is established during account registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication used for certain provisioning and registration flows.
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server

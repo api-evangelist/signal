@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: Signal Server Accounts Attachments API
+  description: The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+- url: https://chat.signal.org
+  description: Signal Production Server
+security:
+- basicAuth: []
+tags:
+- name: Attachments
+  description: Attachment handling endpoints for uploading and downloading media files associated with messages.
+paths:
+  /v4/attachments/form/upload:
+    get:
+      operationId: getAttachmentUploadForm
+      summary: Get attachment upload form
+      description: Returns a pre-signed upload form that clients use to upload attachment data directly to the storage service. The form includes the upload URL, headers, and the attachment identifier.
+      tags:
+      - Attachments
+      responses:
+        '200':
+          description: Upload form returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentUploadForm'
+        '401':
+          description: Authentication required
+components:
+  schemas:
+    AttachmentUploadForm:
+      type: object
+      properties:
+        cdn:
+          type: integer
+          description: The CDN number to use for the upload.
+        key:
+          type: string
+          description: The object key for the attachment.
+        headers:
+          type: object
+          description: HTTP headers to include in the upload request.
+          additionalProperties:
+            type: string
+        signedUploadLocation:
+          type: string
+          format: uri
+          description: The pre-signed URL for uploading the attachment data.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the account UUID (or phone number) and password. The password is established during account registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication used for certain provisioning and registration flows.
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server

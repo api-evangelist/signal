@@ -1,0 +1,126 @@
+openapi: 3.1.0
+info:
+  title: Signal Server Accounts Registration API
+  description: The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+- url: https://chat.signal.org
+  description: Signal Production Server
+security:
+- basicAuth: []
+tags:
+- name: Registration
+  description: Account registration endpoints for creating new Signal accounts via phone number verification.
+paths:
+  /v1/registration:
+    post:
+      operationId: registerAccount
+      summary: Register a new account
+      description: Registers a new Signal account with a phone number. Initiates the verification process by sending an SMS or voice call with a verification code to the provided phone number.
+      tags:
+      - Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationRequest'
+      responses:
+        '200':
+          description: Registration initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          description: Invalid request parameters
+        '409':
+          description: Account already exists or number is rate-limited
+        '429':
+          description: Rate limit exceeded
+components:
+  schemas:
+    AccountAttributes:
+      type: object
+      properties:
+        fetchesMessages:
+          type: boolean
+          description: Whether the device fetches messages via WebSocket rather than receiving push notifications.
+        registrationId:
+          type: integer
+          description: The Signal Protocol registration ID for this device.
+        pniRegistrationId:
+          type: integer
+          description: The PNI registration ID for this device.
+        name:
+          type: string
+          description: The encrypted device name, Base64-encoded.
+        capabilities:
+          type: object
+          description: Account capability flags indicating supported features.
+          properties:
+            storage:
+              type: boolean
+              description: Whether the account supports secure value recovery and storage service.
+            transfer:
+              type: boolean
+              description: Whether the device supports account transfer.
+            paymentActivation:
+              type: boolean
+              description: Whether the account supports payment activation.
+        unidentifiedAccessKey:
+          type: string
+          description: The Base64-encoded unidentified access key for sealed sender.
+        unrestrictedUnidentifiedAccess:
+          type: boolean
+          description: Whether any sender can use sealed sender without the access key.
+    RegistrationRequest:
+      type: object
+      required:
+      - sessionId
+      - accountAttributes
+      properties:
+        sessionId:
+          type: string
+          description: The verification session identifier obtained from the registration service.
+        accountAttributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        skipDeviceTransfer:
+          type: boolean
+          description: Whether to skip the device transfer flow for existing accounts.
+    RegistrationResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID assigned to the newly registered account.
+        number:
+          type: string
+          description: The E164-formatted phone number associated with the account.
+        pni:
+          type: string
+          format: uuid
+          description: The Phone Number Identity UUID for the account.
+        storageCapable:
+          type: boolean
+          description: Whether the account supports secure storage service.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the account UUID (or phone number) and password. The password is established during account registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication used for certain provisioning and registration flows.
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server

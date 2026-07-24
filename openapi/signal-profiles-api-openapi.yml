@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  title: Signal Server Accounts Profiles API
+  description: The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+- url: https://chat.signal.org
+  description: Signal Production Server
+security:
+- basicAuth: []
+tags:
+- name: Profiles
+  description: Profile management endpoints for setting and retrieving user profile information including names, avatars, and capabilities.
+paths:
+  /v1/profile/{identifier}:
+    get:
+      operationId: getProfile
+      summary: Get a user profile
+      description: Retrieves the profile for the specified account, including the encrypted profile name, avatar URL, identity key, and capabilities. Profile data is encrypted with the profile key shared between contacts.
+      tags:
+      - Profiles
+      parameters:
+      - name: identifier
+        in: path
+        required: true
+        description: The UUID identifying the target account.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Profile returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '401':
+          description: Authentication required
+        '404':
+          description: Profile not found
+  /v1/profile:
+    put:
+      operationId: setProfile
+      summary: Set user profile
+      description: Updates the profile for the authenticated account. Profile data including name, about text, emoji, and payment address are encrypted with the account's profile key before transmission.
+      tags:
+      - Profiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetProfileRequest'
+      responses:
+        '200':
+          description: Profile updated successfully
+        '401':
+          description: Authentication required
+components:
+  schemas:
+    SetProfileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The encrypted profile name, Base64-encoded.
+        about:
+          type: string
+          description: The encrypted about text, Base64-encoded.
+        aboutEmoji:
+          type: string
+          description: The encrypted about emoji, Base64-encoded.
+        paymentAddress:
+          type: string
+          description: The encrypted payment address, Base64-encoded.
+        avatar:
+          type: boolean
+          description: Whether the profile has an avatar to upload.
+        commitment:
+          type: string
+          description: The Base64-encoded profile key commitment.
+        version:
+          type: string
+          description: The profile key version string.
+    Profile:
+      type: object
+      properties:
+        identityKey:
+          type: string
+          description: The Base64-encoded identity public key.
+        name:
+          type: string
+          description: The encrypted profile name, Base64-encoded.
+        about:
+          type: string
+          description: The encrypted about text, Base64-encoded.
+        aboutEmoji:
+          type: string
+          description: The encrypted about emoji, Base64-encoded.
+        avatar:
+          type: string
+          description: The path to the profile avatar on the CDN.
+        unidentifiedAccess:
+          type: string
+          description: The Base64-encoded unidentified access key verifier.
+        unrestrictedUnidentifiedAccess:
+          type: boolean
+          description: Whether unrestricted unidentified access is enabled.
+        capabilities:
+          type: object
+          description: Account capability flags.
+        credential:
+          type: string
+          description: The Base64-encoded ExpiringProfileKeyCredentialResponse.
+        uuid:
+          type: string
+          format: uuid
+          description: The account UUID.
+        paymentAddress:
+          type: string
+          description: The encrypted MobileCoin payment address, Base64-encoded.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the account UUID (or phone number) and password. The password is established during account registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication used for certain provisioning and registration flows.
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server

@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: Signal Server Accounts Certificates API
+  description: The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+servers:
+- url: https://chat.signal.org
+  description: Signal Production Server
+security:
+- basicAuth: []
+tags:
+- name: Certificates
+  description: Certificate endpoints for retrieving delivery certificates used in sealed sender message delivery.
+paths:
+  /v1/certificate/delivery:
+    get:
+      operationId: getDeliveryCertificate
+      summary: Get a sealed sender delivery certificate
+      description: Returns a delivery certificate for the authenticated account. This certificate is used in sealed sender message delivery, which hides the sender's identity from the server during message transmission.
+      tags:
+      - Certificates
+      parameters:
+      - name: includeE164
+        in: query
+        required: false
+        description: Whether to include the E164 phone number in the certificate.
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: Delivery certificate returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryCertificate'
+        '401':
+          description: Authentication required
+components:
+  schemas:
+    DeliveryCertificate:
+      type: object
+      properties:
+        certificate:
+          type: string
+          description: The Base64-encoded sealed sender delivery certificate signed by the server.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the account UUID (or phone number) and password. The password is established during account registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication used for certain provisioning and registration flows.
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server
