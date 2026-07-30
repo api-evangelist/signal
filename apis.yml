@@ -1,138 +1,349 @@
 aid: signal
 url: https://raw.githubusercontent.com/api-evangelist/signal/refs/heads/main/apis.yml
 apis:
-  - aid: signal:signal-protocol-specifications
-    name: Signal Protocol Specifications
-    tags:
-      - Encryption
-      - Messaging
-      - Cryptography
-      - Security
-      - Protocols
-    humanURL: https://signal.org/docs/
-    properties:
-      - url: https://signal.org/docs/
-        type: Documentation
-    description: >-
-      The Signal Protocol Specifications define the core cryptographic protocols that underpin Signal's end-to-end
-      encrypted messaging. These include the X3DH (Extended Triple Diffie-Hellman) key agreement protocol for
-      establishing shared secrets between parties, the Double Ratchet Algorithm for deriving new encryption keys per
-      message, the PQXDH (Post-Quantum Extended Diffie-Hellman) protocol for quantum-resistant key agreement, and XEdDSA
-      for EdDSA-compatible signature schemes. These specifications are published independently so they can be adopted by
-      other projects beyond Signal itself.
-  - aid: signal:signal-libsignal-sdk
-    name: Signal libsignal SDK
-    tags:
-      - SDK
-      - Encryption
-      - Cryptography
-      - Java
-      - Swift
-      - TypeScript
-      - Rust
-    humanURL: https://github.com/signalapp/libsignal
-    properties:
-      - url: https://github.com/signalapp/libsignal
-        type: GitHub
-      - url: https://github.com/signalapp/libsignal
-        type: Documentation
-    description: >-
-      The libsignal SDK provides platform-agnostic APIs used by the official Signal clients and server. It implements
-      the Signal Protocol including the Double Ratchet algorithm, as well as other cryptographic primitives such as
-      AES-GCM encryption and zero-knowledge group functionality. The core implementations are written in Rust, with
-      bindings exposed as Java, Swift, and TypeScript libraries.
-  - aid: signal:signal-server
-    name: Signal Server
-    tags:
-      - Messaging
-      - Server
-      - Backend
-      - Encryption
-      - Open Source
-    humanURL: https://github.com/signalapp/Signal-Server
-    baseURL: https://chat.signal.org
-    properties:
-      - url: https://github.com/signalapp/Signal-Server
-        type: GitHub
-      - url: https://github.com/signalapp/Signal-Server
-        type: Documentation
-      - url: openapi/signal-server-openapi.yml
-        type: OpenAPI
-      - url: asyncapi/signal-server-asyncapi.yml
-        type: AsyncAPI
-      - url: rules/signal-rules.yml
-        type: SpectralRules
-      - url: capabilities/secure-messaging.yaml
-        type: Capabilities
-      - url: json-schema/signal-protocol-entities-schema.json
-        type: JSONSchema
-      - url: json-ld/signal-context.jsonld
-        type: JSONLD
-      - url: vocabulary/signal-vocabulary.yml
-        type: Vocabulary
-    description: >-
-      Signal-Server is the open-source server backend that supports the Signal Private Messenger applications on
-      Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account management,
-      message delivery, key distribution, and device provisioning, along with gRPC services and WebSocket endpoints for
-      real-time communication. The server handles user registration, encrypted message routing, push notification
-      delivery, and pre-key bundle management.
-  - aid: signal:signal-android-sdk
-    name: Signal Android SDK
-    tags:
-      - Android
-      - Mobile
-      - Messaging
-      - Encryption
-      - Open Source
-    humanURL: https://github.com/signalapp/Signal-Android
-    properties:
-      - url: https://github.com/signalapp/Signal-Android
-        type: GitHub
-      - url: https://github.com/signalapp/Signal-Android
-        type: Documentation
-    description: >-
-      Signal-Android is the open-source Android client for the Signal encrypted messaging platform. It provides the full
-      messaging experience including end-to-end encrypted text messages, voice calls, video calls, group chats, and
-      media sharing. The application integrates the libsignal protocol library for cryptographic operations and
-      communicates with the Signal Server for message routing and delivery.
-  - aid: signal:signal-ios-sdk
-    name: Signal iOS SDK
-    tags:
-      - iOS
-      - Mobile
-      - Messaging
-      - Encryption
-      - Open Source
-    humanURL: https://github.com/signalapp/Signal-iOS
-    properties:
-      - url: https://github.com/signalapp/Signal-iOS
-        type: GitHub
-      - url: https://github.com/signalapp/Signal-iOS
-        type: Documentation
-    description: >-
-      Signal-iOS is the open-source iOS client for the Signal encrypted messaging platform. It delivers end-to-end
-      encrypted messaging, voice calls, video calls, and group communications on iPhone and iPad devices. The
-      application uses the libsignal protocol library for all cryptographic operations and connects to the Signal Server
-      infrastructure for message delivery and synchronization.
-  - aid: signal:signal-desktop-sdk
-    name: Signal Desktop SDK
-    tags:
-      - Desktop
-      - Electron
-      - Messaging
-      - Encryption
-      - Open Source
-    humanURL: https://github.com/signalapp/Signal-Desktop
-    properties:
-      - url: https://github.com/signalapp/Signal-Desktop
-        type: GitHub
-      - url: https://github.com/signalapp/Signal-Desktop
-        type: Documentation
-    description: >-
-      Signal-Desktop is the open-source desktop client for the Signal encrypted messaging platform, built with Electron
-      and TypeScript. It provides end-to-end encrypted messaging, voice calls, video calls, and group communications on
-      Windows, macOS, and Linux. The desktop client links to an existing Signal mobile account and synchronizes messages
-      across devices.
+- aid: signal:signal-protocol-specifications
+  name: Signal Protocol Specifications
+  tags:
+  - Encryption
+  - Messaging
+  - Cryptography
+  - Security
+  - Protocols
+  humanURL: https://signal.org/docs/
+  properties:
+  - url: https://signal.org/docs/
+    type: Documentation
+  description: >-
+    The Signal Protocol Specifications define the core cryptographic protocols that underpin Signal's
+    end-to-end encrypted messaging. These include the X3DH (Extended Triple Diffie-Hellman) key agreement
+    protocol for establishing shared secrets between parties, the Double Ratchet Algorithm for deriving
+    new encryption keys per message, the PQXDH (Post-Quantum Extended Diffie-Hellman) protocol for quantum-resistant
+    key agreement, and XEdDSA for EdDSA-compatible signature schemes. These specifications are published
+    independently so they can be adopted by other projects beyond Signal itself.
+- aid: signal:signal-libsignal-sdk
+  name: Signal libsignal SDK
+  tags:
+  - SDK
+  - Encryption
+  - Cryptography
+  - Java
+  - Swift
+  - TypeScript
+  - Rust
+  humanURL: https://github.com/signalapp/libsignal
+  properties:
+  - url: https://github.com/signalapp/libsignal
+    type: GitHub
+  - url: https://github.com/signalapp/libsignal
+    type: Documentation
+  description: >-
+    The libsignal SDK provides platform-agnostic APIs used by the official Signal clients and server.
+    It implements the Signal Protocol including the Double Ratchet algorithm, as well as other cryptographic
+    primitives such as AES-GCM encryption and zero-knowledge group functionality. The core implementations
+    are written in Rust, with bindings exposed as Java, Swift, and TypeScript libraries.
+- aid: signal:signal-android-sdk
+  name: Signal Android SDK
+  tags:
+  - Android
+  - Mobile
+  - Messaging
+  - Encryption
+  - Open Source
+  humanURL: https://github.com/signalapp/Signal-Android
+  properties:
+  - url: https://github.com/signalapp/Signal-Android
+    type: GitHub
+  - url: https://github.com/signalapp/Signal-Android
+    type: Documentation
+  description: >-
+    Signal-Android is the open-source Android client for the Signal encrypted messaging platform. It provides
+    the full messaging experience including end-to-end encrypted text messages, voice calls, video calls,
+    group chats, and media sharing. The application integrates the libsignal protocol library for cryptographic
+    operations and communicates with the Signal Server for message routing and delivery.
+- aid: signal:signal-ios-sdk
+  name: Signal iOS SDK
+  tags:
+  - iOS
+  - Mobile
+  - Messaging
+  - Encryption
+  - Open Source
+  humanURL: https://github.com/signalapp/Signal-iOS
+  properties:
+  - url: https://github.com/signalapp/Signal-iOS
+    type: GitHub
+  - url: https://github.com/signalapp/Signal-iOS
+    type: Documentation
+  description: >-
+    Signal-iOS is the open-source iOS client for the Signal encrypted messaging platform. It delivers
+    end-to-end encrypted messaging, voice calls, video calls, and group communications on iPhone and iPad
+    devices. The application uses the libsignal protocol library for all cryptographic operations and
+    connects to the Signal Server infrastructure for message delivery and synchronization.
+- aid: signal:signal-desktop-sdk
+  name: Signal Desktop SDK
+  tags:
+  - Desktop
+  - Electron
+  - Messaging
+  - Encryption
+  - Open Source
+  humanURL: https://github.com/signalapp/Signal-Desktop
+  properties:
+  - url: https://github.com/signalapp/Signal-Desktop
+    type: GitHub
+  - url: https://github.com/signalapp/Signal-Desktop
+    type: Documentation
+  description: >-
+    Signal-Desktop is the open-source desktop client for the Signal encrypted messaging platform, built
+    with Electron and TypeScript. It provides end-to-end encrypted messaging, voice calls, video calls,
+    and group communications on Windows, macOS, and Linux. The desktop client links to an existing Signal
+    mobile account and synchronizes messages across devices.
+- aid: signal:signal-accounts-api
+  name: Signal Accounts API
+  description: >-
+    Account management endpoints for configuring account settings, managing capabilities, and account
+    lifecycle operations.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-accounts-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-attachments-api
+  name: Signal Attachments API
+  description: >-
+    Attachment handling endpoints for uploading and downloading media files associated with messages.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-attachments-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-certificates-api
+  name: Signal Certificates API
+  description: >-
+    Certificate endpoints for retrieving delivery certificates used in sealed sender message delivery.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Certificates
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-certificates-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-devices-api
+  name: Signal Devices API
+  description: >-
+    Device management endpoints for linking, unlinking, and managing devices associated with a Signal
+    account.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Devices
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-devices-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-keys-api
+  name: Signal Keys API
+  description: >-
+    Pre-key bundle management endpoints for uploading and retrieving public key material used in the Signal
+    Protocol key exchange.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-keys-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-messages-api
+  name: Signal Messages API
+  description: >-
+    Message sending and receiving endpoints for delivering encrypted messages between Signal users.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Messages
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-messages-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-profiles-api
+  name: Signal Profiles API
+  description: >-
+    Profile management endpoints for setting and retrieving user profile information including names,
+    avatars, and capabilities.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-profiles-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-registration-api
+  name: Signal Registration API
+  description: >-
+    Account registration endpoints for creating new Signal accounts via phone number verification.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Registration
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-registration-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
+- aid: signal:signal-stickers-api
+  name: Signal Stickers API
+  description: Sticker pack management endpoints for uploading and retrieving sticker packs.
+  humanURL: https://signal.org/docs/
+  baseURL: https://chat.signal.org
+  tags:
+  - Stickers
+  properties:
+  - type: OpenAPI
+    url: openapi/signal-stickers-api-openapi.yml
+  - type: GitHub
+    url: https://github.com/signalapp/Signal-Server
+  - type: Documentation
+    url: https://github.com/signalapp/Signal-Server
+  - type: AsyncAPI
+    url: asyncapi/signal-server-asyncapi.yml
+  - type: SpectralRules
+    url: rules/signal-rules.yml
+  - type: Capabilities
+    url: capabilities/secure-messaging.yaml
+  - type: JSONSchema
+    url: json-schema/signal-protocol-entities-schema.json
+  - type: JSONLD
+    url: json-ld/signal-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/signal-vocabulary.yml
 name: Signal
 tags:
   - Encryption
@@ -142,7 +353,20 @@ tags:
   - Open Source
   - Privacy
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/signal.png
 access: 3rd-Party
 created: '2026-03-20'
 modified: '2026-05-19'
