@@ -1,0 +1,30 @@
+{
+  "provider": "signal",
+  "sources": [
+    "signal-accounts-api-openapi.yml",
+    "signal-attachments-api-openapi.yml",
+    "signal-certificates-api-openapi.yml",
+    "signal-devices-api-openapi.yml",
+    "signal-keys-api-openapi.yml",
+    "signal-messages-api-openapi.yml",
+    "signal-profiles-api-openapi.yml",
+    "signal-registration-api-openapi.yml",
+    "signal-stickers-api-openapi.yml"
+  ],
+  "outputs": [
+    "signal-accounts-api-openapi.yml",
+    "signal-attachments-api-openapi.yml",
+    "signal-certificates-api-openapi.yml",
+    "signal-devices-api-openapi.yml",
+    "signal-keys-api-openapi.yml",
+    "signal-messages-api-openapi.yml",
+    "signal-profiles-api-openapi.yml",
+    "signal-registration-api-openapi.yml",
+    "signal-stickers-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,1083 @@
+openapi: 3.1.0
+info:
+  title: Signal Server API
+  description: >-
+    The Signal Server API is the backend REST API that supports the Signal
+    Private Messenger applications on Android, Desktop, and iOS. Built as a
+    Dropwizard application, it provides REST controllers for account
+    registration and management, message delivery, pre-key bundle distribution,
+    device provisioning, profile management, and attachment handling. The server
+    handles user registration via phone number verification, encrypted message
+    routing, push notification delivery, and pre-key bundle management. While
+    Signal does not offer an official public REST API for third-party use, the
+    server source code is available for inspection and self-hosting. All
+    communication is end-to-end encrypted using the Signal Protocol.
+  version: '2.0'
+  contact:
+    name: Signal Support
+    url: https://support.signal.org/
+  termsOfService: https://signal.org/legal/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/signalapp/Signal-Server/blob/main/LICENSE
+externalDocs:
+  description: Signal Server Source Code
+  url: https://github.com/signalapp/Signal-Server
+servers:
+  - url: https://chat.signal.org
+    description: Signal Production Server
+tags:
+  - name: Accounts
+    description: >-
+      Account management endpoints for configuring account settings,
+      managing capabilities, and account lifecycle operations.
+  - name: Attachments
+    description: >-
+      Attachment handling endpoints for uploading and downloading media
+      files associated with messages.
+  - name: Certificates
+    description: >-
+      Certificate endpoints for retrieving delivery certificates used in
+      sealed sender message delivery.
+  - name: Devices
+    description: >-
+      Device management endpoints for linking, unlinking, and managing
+      devices associated with a Signal account.
+  - name: Keys
+    description: >-
+      Pre-key bundle management endpoints for uploading and retrieving
+      public key material used in the Signal Protocol key exchange.
+  - name: Messages
+    description: >-
+      Message sending and receiving endpoints for delivering encrypted
+      messages between Signal users.
+  - name: Profiles
+    description: >-
+      Profile management endpoints for setting and retrieving user profile
+      information including names, avatars, and capabilities.
+  - name: Registration
+    description: >-
+      Account registration endpoints for creating new Signal accounts via
+      phone number verification.
+  - name: Stickers
+    description: >-
+      Sticker pack management endpoints for uploading and retrieving
+      sticker packs.
+security:
+  - basicAuth: []
+paths:
+  /v1/registration:
+    post:
+      operationId: registerAccount
+      summary: Register a new account
+      description: >-
+        Registers a new Signal account with a phone number. Initiates the
+        verification process by sending an SMS or voice call with a
+        verification code to the provided phone number.
+      tags:
+        - Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationRequest'
+      responses:
+        '200':
+          description: Registration initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          description: Invalid request parameters
+        '409':
+          description: Account already exists or number is rate-limited
+        '429':
+          description: Rate limit exceeded
+  /v1/accounts/whoami:
+    get:
+      operationId: getAccountIdentity
+      summary: Get current account identity
+      description: >-
+        Returns the account identity information for the currently
+        authenticated user, including the account UUID and phone number.
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: Account identity returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentity'
+        '401':
+          description: Authentication required
+  /v1/accounts/attributes:
+    put:
+      operationId: setAccountAttributes
+      summary: Set account attributes
+      description: >-
+        Updates the account attributes for the authenticated user, including
+        registration ID, voice and video capabilities, fetches messages
+        setting, and other account-level configuration.
+      tags:
+        - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountAttributes'
+      responses:
+        '204':
+          description: Account attributes updated successfully
+        '401':
+          description: Authentication required
+  /v1/accounts/username_hash/{usernameHash}:
+    put:
+      operationId: confirmUsernameHash
+      summary: Confirm a username hash
+      description: >-
+        Confirms and sets a username hash for the authenticated account. The
+        username hash is a privacy-preserving representation of the username.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/usernameHash'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameHashConfirmation'
+      responses:
+        '200':
+          description: Username hash confirmed successfully
+        '409':
+          description: Username hash already taken
+        '410':
+          description: Username hash reservation expired
+    get:
+      operationId: lookupUsernameHash
+      summary: Look up account by username hash
+      description: >-
+        Looks up an account by its username hash and returns the account
+        UUID if found.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/usernameHash'
+      responses:
+        '200':
+          description: Account found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameHashLookupResponse'
+        '404':
+          description: No account found for username hash
+  /v1/accounts/number:
+    put:
+      operationId: changeNumber
+      summary: Change account phone number
+      description: >-
+        Changes the phone number associated with the authenticated account.
+        Requires re-verification of the new phone number.
+      tags:
+        - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeNumberRequest'
+      responses:
+        '200':
+          description: Phone number changed successfully
+        '401':
+          description: Authentication required
+        '409':
+          description: Number already in use
+  /v1/devices:
+    get:
+      operationId: listDevices
+      summary: List linked devices
+      description: >-
+        Returns a list of all devices currently linked to the authenticated
+        account, including device IDs, names, and last seen timestamps.
+      tags:
+        - Devices
+      responses:
+        '200':
+          description: Device list returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        '401':
+          description: Authentication required
+  /v1/devices/link:
+    put:
+      operationId: linkDevice
+      summary: Link a new device
+      description: >-
+        Links a new device to the authenticated account. The new device must
+        have already been provisioned with a device code obtained through
+        the provisioning process.
+      tags:
+        - Devices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkDeviceRequest'
+      responses:
+        '200':
+          description: Device linked successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceResponse'
+        '403':
+          description: Maximum number of linked devices reached
+        '422':
+          description: Invalid device verification code
+  /v1/devices/{deviceId}:
+    delete:
+      operationId: removeDevice
+      summary: Remove a linked device
+      description: >-
+        Removes a linked device from the authenticated account. This
+        unlinks the device and invalidates its credentials.
+      tags:
+        - Devices
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '204':
+          description: Device removed successfully
+        '401':
+          description: Authentication required
+        '404':
+          description: Device not found
+  /v1/messages/{destinationUuid}:
+    put:
+      operationId: sendMessage
+      summary: Send an encrypted message
+      description: >-
+        Sends one or more encrypted messages to the specified destination
+        account identified by UUID. Messages are encrypted using the Signal
+        Protocol and include envelope metadata for delivery. The server
+        routes messages to the recipient's devices.
+      tags:
+        - Messages
+      parameters:
+        - $ref: '#/components/parameters/destinationUuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncomingMessageList'
+      responses:
+        '200':
+          description: Messages accepted for delivery
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        '401':
+          description: Authentication required
+        '404':
+          description: Destination account not found
+        '409':
+          description: Mismatched devices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MismatchedDevices'
+        '410':
+          description: Stale devices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaleDevices'
+  /v2/keys:
+    get:
+      operationId: getPreKeyCount
+      summary: Get pre-key counts
+      description: >-
+        Returns the number of pre-keys currently stored on the server for
+        the authenticated device. Clients use this to determine whether
+        they need to upload additional pre-keys.
+      tags:
+        - Keys
+      responses:
+        '200':
+          description: Pre-key count returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreKeyCount'
+        '401':
+          description: Authentication required
+    put:
+      operationId: setKeys
+      summary: Upload pre-keys
+      description: >-
+        Uploads a batch of pre-keys, a signed pre-key, and optionally a
+        last-resort Kyber pre-key for the authenticated device. These keys
+        are used by other clients to establish Signal Protocol sessions.
+      tags:
+        - Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetKeysRequest'
+      responses:
+        '204':
+          description: Keys uploaded successfully
+        '401':
+          description: Authentication required
+  /v2/keys/{identifier}/{deviceId}:
+    get:
+      operationId: getDeviceKeys
+      summary: Get pre-key bundle for a device
+      description: >-
+        Retrieves a pre-key bundle for a specific device belonging to the
+        identified account. The bundle includes a pre-key, signed pre-key,
+        and identity key needed to establish a Signal Protocol session.
+      tags:
+        - Keys
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          description: >-
+            The UUID or phone number identifying the target account.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Pre-key bundle returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreKeyBundle'
+        '404':
+          description: Account or device not found
+  /v1/profile/{identifier}:
+    get:
+      operationId: getProfile
+      summary: Get a user profile
+      description: >-
+        Retrieves the profile for the specified account, including the
+        encrypted profile name, avatar URL, identity key, and capabilities.
+        Profile data is encrypted with the profile key shared between
+        contacts.
+      tags:
+        - Profiles
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          description: >-
+            The UUID identifying the target account.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Profile returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '401':
+          description: Authentication required
+        '404':
+          description: Profile not found
+  /v1/profile:
+    put:
+      operationId: setProfile
+      summary: Set user profile
+      description: >-
+        Updates the profile for the authenticated account. Profile data
+        including name, about text, emoji, and payment address are
+        encrypted with the account's profile key before transmission.
+      tags:
+        - Profiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetProfileRequest'
+      responses:
+        '200':
+          description: Profile updated successfully
+        '401':
+          description: Authentication required
+  /v4/attachments/form/upload:
+    get:
+      operationId: getAttachmentUploadForm
+      summary: Get attachment upload form
+      description: >-
+        Returns a pre-signed upload form that clients use to upload
+        attachment data directly to the storage service. The form includes
+        the upload URL, headers, and the attachment identifier.
+      tags:
+        - Attachments
+      responses:
+        '200':
+          description: Upload form returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentUploadForm'
+        '401':
+          description: Authentication required
+  /v1/sticker/pack/form/{packSize}:
+    get:
+      operationId: getStickerPackUploadForm
+      summary: Get sticker pack upload form
+      description: >-
+        Returns a pre-signed upload form for uploading a sticker pack with
+        the specified number of stickers.
+      tags:
+        - Stickers
+      parameters:
+        - name: packSize
+          in: path
+          required: true
+          description: >-
+            The number of stickers in the pack.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: Upload form returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerPackUploadForm'
+        '401':
+          description: Authentication required
+  /v1/certificate/delivery:
+    get:
+      operationId: getDeliveryCertificate
+      summary: Get a sealed sender delivery certificate
+      description: >-
+        Returns a delivery certificate for the authenticated account. This
+        certificate is used in sealed sender message delivery, which hides
+        the sender's identity from the server during message transmission.
+      tags:
+        - Certificates
+      parameters:
+        - name: includeE164
+          in: query
+          required: false
+          description: >-
+            Whether to include the E164 phone number in the certificate.
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Delivery certificate returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryCertificate'
+        '401':
+          description: Authentication required
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        HTTP Basic authentication using the account UUID (or phone number)
+        and password. The password is established during account
+        registration.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer token authentication used for certain provisioning and
+        registration flows.
+  parameters:
+    deviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: >-
+        The numeric device identifier. Device 1 is always the primary
+        device.
+      schema:
+        type: integer
+        format: int64
+    destinationUuid:
+      name: destinationUuid
+      in: path
+      required: true
+      description: >-
+        The UUID of the destination account.
+      schema:
+        type: string
+        format: uuid
+    usernameHash:
+      name: usernameHash
+      in: path
+      required: true
+      description: >-
+        The Base64url-encoded SHA-256 hash of the username.
+      schema:
+        type: string
+  schemas:
+    RegistrationRequest:
+      type: object
+      required:
+        - sessionId
+        - accountAttributes
+      properties:
+        sessionId:
+          type: string
+          description: >-
+            The verification session identifier obtained from the
+            registration service.
+        accountAttributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        skipDeviceTransfer:
+          type: boolean
+          description: >-
+            Whether to skip the device transfer flow for existing accounts.
+    RegistrationResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID assigned to the newly registered account.
+        number:
+          type: string
+          description: >-
+            The E164-formatted phone number associated with the account.
+        pni:
+          type: string
+          format: uuid
+          description: >-
+            The Phone Number Identity UUID for the account.
+        storageCapable:
+          type: boolean
+          description: >-
+            Whether the account supports secure storage service.
+    AccountIdentity:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: >-
+            The ACI (Account Identity) UUID.
+        number:
+          type: string
+          description: >-
+            The E164-formatted phone number.
+        pni:
+          type: string
+          format: uuid
+          description: >-
+            The Phone Number Identity UUID.
+        usernameHash:
+          type: string
+          description: >-
+            The Base64url-encoded username hash if set.
+    AccountAttributes:
+      type: object
+      properties:
+        fetchesMessages:
+          type: boolean
+          description: >-
+            Whether the device fetches messages via WebSocket rather than
+            receiving push notifications.
+        registrationId:
+          type: integer
+          description: >-
+            The Signal Protocol registration ID for this device.
+        pniRegistrationId:
+          type: integer
+          description: >-
+            The PNI registration ID for this device.
+        name:
+          type: string
+          description: >-
+            The encrypted device name, Base64-encoded.
+        capabilities:
+          type: object
+          description: >-
+            Account capability flags indicating supported features.
+          properties:
+            storage:
+              type: boolean
+              description: >-
+                Whether the account supports secure value recovery and
+                storage service.
+            transfer:
+              type: boolean
+              description: >-
+                Whether the device supports account transfer.
+            paymentActivation:
+              type: boolean
+              description: >-
+                Whether the account supports payment activation.
+        unidentifiedAccessKey:
+          type: string
+          description: >-
+            The Base64-encoded unidentified access key for sealed sender.
+        unrestrictedUnidentifiedAccess:
+          type: boolean
+          description: >-
+            Whether any sender can use sealed sender without the access key.
+    UsernameHashConfirmation:
+      type: object
+      required:
+        - usernameHash
+        - zkProof
+      properties:
+        usernameHash:
+          type: string
+          description: >-
+            The Base64url-encoded username hash to confirm.
+        zkProof:
+          type: string
+          description: >-
+            The zero-knowledge proof that the username hash is valid.
+    UsernameHashLookupResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the account associated with the username hash.
+    ChangeNumberRequest:
+      type: object
+      required:
+        - number
+        - registrationLock
+      properties:
+        number:
+          type: string
+          description: >-
+            The new E164-formatted phone number.
+        registrationLock:
+          type: string
+          description: >-
+            The registration lock token for verification.
+        pniIdentityKey:
+          type: string
+          description: >-
+            The new PNI identity key, Base64-encoded.
+    DeviceList:
+      type: object
+      properties:
+        devices:
+          type: array
+          description: >-
+            List of devices linked to the account.
+          items:
+            $ref: '#/components/schemas/Device'
+    Device:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: >-
+            The numeric device identifier. Primary device is always 1.
+        name:
+          type: string
+          description: >-
+            The encrypted device name, Base64-encoded.
+        lastSeen:
+          type: integer
+          format: int64
+          description: >-
+            Unix timestamp in milliseconds of when the device last
+            connected.
+        created:
+          type: integer
+          format: int64
+          description: >-
+            Unix timestamp in milliseconds of when the device was linked.
+    LinkDeviceRequest:
+      type: object
+      required:
+        - verificationCode
+        - accountAttributes
+      properties:
+        verificationCode:
+          type: string
+          description: >-
+            The device verification code obtained during provisioning.
+        accountAttributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        aciSignedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        pniSignedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        aciPqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+        pniPqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    DeviceResponse:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          description: >-
+            The numeric device identifier assigned to the newly linked
+            device.
+    IncomingMessageList:
+      type: object
+      required:
+        - messages
+        - timestamp
+      properties:
+        messages:
+          type: array
+          description: >-
+            The list of encrypted message envelopes, one per destination
+            device.
+          items:
+            $ref: '#/components/schemas/IncomingMessage'
+        timestamp:
+          type: integer
+          format: int64
+          description: >-
+            The client timestamp in milliseconds.
+        online:
+          type: boolean
+          description: >-
+            Whether to only deliver to online devices (skip push
+            notifications for offline devices).
+        urgent:
+          type: boolean
+          description: >-
+            Whether the message is urgent and should trigger immediate push
+            notification delivery.
+    IncomingMessage:
+      type: object
+      required:
+        - type
+        - destinationDeviceId
+        - content
+      properties:
+        type:
+          type: integer
+          description: >-
+            The message envelope type. 1 for ciphertext, 3 for prekey
+            message, 6 for plaintext content, 7 for unidentified sender.
+          enum:
+            - 1
+            - 3
+            - 6
+            - 7
+        destinationDeviceId:
+          type: integer
+          format: int64
+          description: >-
+            The target device identifier on the destination account.
+        destinationRegistrationId:
+          type: integer
+          description: >-
+            The expected registration ID of the target device.
+        content:
+          type: string
+          description: >-
+            The Base64-encoded encrypted message content.
+    SendMessageResponse:
+      type: object
+      properties:
+        needsSync:
+          type: boolean
+          description: >-
+            Whether the sender has other devices that need to be synced
+            with this message.
+    MismatchedDevices:
+      type: object
+      properties:
+        missingDevices:
+          type: array
+          description: >-
+            Device IDs that messages were not provided for.
+          items:
+            type: integer
+            format: int64
+        extraDevices:
+          type: array
+          description: >-
+            Device IDs that messages were provided for but do not exist.
+          items:
+            type: integer
+            format: int64
+    StaleDevices:
+      type: object
+      properties:
+        staleDevices:
+          type: array
+          description: >-
+            Device IDs with stale registration IDs.
+          items:
+            type: integer
+            format: int64
+    PreKeyCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: >-
+            The number of one-time pre-keys remaining on the server.
+        pqCount:
+          type: integer
+          description: >-
+            The number of post-quantum (Kyber) one-time pre-keys remaining.
+    SetKeysRequest:
+      type: object
+      properties:
+        preKeys:
+          type: array
+          description: >-
+            A list of one-time EC pre-keys to upload.
+          items:
+            $ref: '#/components/schemas/PreKey'
+        signedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        pqPreKeys:
+          type: array
+          description: >-
+            A list of one-time post-quantum (Kyber) pre-keys to upload.
+          items:
+            $ref: '#/components/schemas/KyberPreKey'
+        pqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    PreKey:
+      type: object
+      required:
+        - keyId
+        - publicKey
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: >-
+            The pre-key identifier.
+        publicKey:
+          type: string
+          description: >-
+            The Base64-encoded public key.
+    SignedPreKey:
+      type: object
+      required:
+        - keyId
+        - publicKey
+        - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: >-
+            The signed pre-key identifier.
+        publicKey:
+          type: string
+          description: >-
+            The Base64-encoded public key.
+        signature:
+          type: string
+          description: >-
+            The Base64-encoded signature over the public key.
+    KyberPreKey:
+      type: object
+      required:
+        - keyId
+        - publicKey
+        - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: >-
+            The Kyber pre-key identifier.
+        publicKey:
+          type: string
+          description: >-
+            The Base64-encoded Kyber public key.
+        signature:
+          type: string
+          description: >-
+            The Base64-encoded signature over the Kyber public key.
+    PreKeyBundle:
+      type: object
+      properties:
+        identityKey:
+          type: string
+          description: >-
+            The Base64-encoded identity public key for the account.
+        devices:
+          type: array
+          description: >-
+            Pre-key bundles for each of the account's devices.
+          items:
+            $ref: '#/components/schemas/DevicePreKeyBundle'
+    DevicePreKeyBundle:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          description: >-
+            The device identifier.
+        registrationId:
+          type: integer
+          description: >-
+            The device's registration ID.
+        signedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        preKey:
+          $ref: '#/components/schemas/PreKey'
+        pqPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    Profile:
+      type: object
+      properties:
+        identityKey:
+          type: string
+          description: >-
+            The Base64-encoded identity public key.
+        name:
+          type: string
+          description: >-
+            The encrypted profile name, Base64-encoded.
+        about:
+          type: string
+          description: >-
+            The encrypted about text, Base64-encoded.
+        aboutEmoji:
+          type: string
+          description: >-
+            The encrypted about emoji, Base64-encoded.
+        avatar:
+          type: string
+          description: >-
+            The path to the profile avatar on the CDN.
+        unidentifiedAccess:
+          type: string
+          description: >-
+            The Base64-encoded unidentified access key verifier.
+        unrestrictedUnidentifiedAccess:
+          type: boolean
+          description: >-
+            Whether unrestricted unidentified access is enabled.
+        capabilities:
+          type: object
+          description: >-
+            Account capability flags.
+        credential:
+          type: string
+          description: >-
+            The Base64-encoded ExpiringProfileKeyCredentialResponse.
+        uuid:
+          type: string
+          format: uuid
+          description: >-
+            The account UUID.
+        paymentAddress:
+          type: string
+          description: >-
+            The encrypted MobileCoin payment address, Base64-encoded.
+    SetProfileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: >-
+            The encrypted profile name, Base64-encoded.
+        about:
+          type: string
+          description: >-
+            The encrypted about text, Base64-encoded.
+        aboutEmoji:
+          type: string
+          description: >-
+            The encrypted about emoji, Base64-encoded.
+        paymentAddress:
+          type: string
+          description: >-
+            The encrypted payment address, Base64-encoded.
+        avatar:
+          type: boolean
+          description: >-
+            Whether the profile has an avatar to upload.
+        commitment:
+          type: string
+          description: >-
+            The Base64-encoded profile key commitment.
+        version:
+          type: string
+          description: >-
+            The profile key version string.
+    AttachmentUploadForm:
+      type: object
+      properties:
+        cdn:
+          type: integer
+          description: >-
+            The CDN number to use for the upload.
+        key:
+          type: string
+          description: >-
+            The object key for the attachment.
+        headers:
+          type: object
+          description: >-
+            HTTP headers to include in the upload request.
+          additionalProperties:
+            type: string
+        signedUploadLocation:
+          type: string
+          format: uri
+          description: >-
+            The pre-signed URL for uploading the attachment data.
+    StickerPackUploadForm:
+      type: object
+      properties:
+        packId:
+          type: string
+          description: >-
+            The identifier for the sticker pack.
+        manifest:
+          $ref: '#/components/schemas/AttachmentUploadForm'
+        stickers:
+          type: array
+          description: >-
+            Upload forms for each sticker in the pack.
+          items:
+            $ref: '#/components/schemas/AttachmentUploadForm'
+    DeliveryCertificate:
+      type: object
+      properties:
+        certificate:
+          type: string
+          description: >-
+            The Base64-encoded sealed sender delivery certificate signed
+            by the server.
