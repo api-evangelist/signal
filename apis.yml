@@ -118,8 +118,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -145,8 +143,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -172,8 +168,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -200,8 +194,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -228,8 +220,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -255,8 +245,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -283,8 +271,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -310,8 +296,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
@@ -336,8 +320,6 @@ apis:
     url: asyncapi/signal-server-asyncapi.yml
   - type: SpectralRules
     url: rules/signal-rules.yml
-  - type: Capabilities
-    url: capabilities/secure-messaging.yaml
   - type: JSONSchema
     url: json-schema/signal-protocol-entities-schema.json
   - type: JSONLD
