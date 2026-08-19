@@ -1,0 +1,400 @@
+{
+  "item": [
+    {
+      "id": "b2e09d50-e8b8-4187-a428-7cd24340dc1e",
+      "name": "Messages",
+      "description": {
+        "content": "Message sending and receiving endpoints for delivering encrypted messages between Signal users.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6704ff08-9976-484b-9f16-f6dd0b1a9ec4",
+          "name": "Send an encrypted message",
+          "request": {
+            "name": "Send an encrypted message",
+            "description": {
+              "content": "Sends one or more encrypted messages to the specified destination account identified by UUID. Messages are encrypted using the Signal Protocol and include envelope metadata for delivery. The server routes messages to the recipient's devices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "messages",
+                ":destinationUuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "destinationUuid",
+                  "description": "(Required) The UUID of the destination account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [\n    {\n      \"type\": \"<integer>\",\n      \"destinationDeviceId\": \"<long>\",\n      \"content\": \"<string>\",\n      \"destinationRegistrationId\": \"<integer>\"\n    },\n    {\n      \"type\": \"<integer>\",\n      \"destinationDeviceId\": \"<long>\",\n      \"content\": \"<string>\",\n      \"destinationRegistrationId\": \"<integer>\"\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "45fcb0e7-898d-4f90-a210-419117bbb3a3",
+              "name": "Messages accepted for delivery",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 3,\n      \"destinationDeviceId\": 3421,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1858\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 6710,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 2586\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"needsSync\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f086db2-d8d9-4292-9e0f-67d9c82dce4d",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 3,\n      \"destinationDeviceId\": 3421,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1858\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 6710,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 2586\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "37b3d064-896d-45a3-9099-e9e8b9c52489",
+              "name": "Destination account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 3,\n      \"destinationDeviceId\": 3421,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1858\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 6710,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 2586\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6533b367-c2b1-487c-999b-06bda629a6e5",
+              "name": "Mismatched devices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 3,\n      \"destinationDeviceId\": 3421,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1858\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 6710,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 2586\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"missingDevices\": [\n    2779,\n    4248\n  ],\n  \"extraDevices\": [\n    1256,\n    3064\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa5e158e-e7ba-477f-aba1-82cc4e5b4ded",
+              "name": "Stale devices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages",
+                    ":destinationUuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "destinationUuid",
+                      "description": "(Required) The UUID of the destination account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"type\": 3,\n      \"destinationDeviceId\": 3421,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 1858\n    },\n    {\n      \"type\": 7,\n      \"destinationDeviceId\": 6710,\n      \"content\": \"string\",\n      \"destinationRegistrationId\": 2586\n    }\n  ],\n  \"timestamp\": \"<long>\",\n  \"online\": \"<boolean>\",\n  \"urgent\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"staleDevices\": [\n    1448,\n    6499\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.signal.org",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b29bdf8d-bc1d-48a9-a31c-6bd80d51b64b",
+    "name": "Signal Server Accounts Messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.\n\nContact Support:\n Name: Signal Support",
+      "type": "text/plain"
+    }
+  }
+}

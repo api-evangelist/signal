@@ -1,0 +1,477 @@
+{
+  "item": [
+    {
+      "id": "f2756bb3-fc41-4965-b89c-04becb54cfb3",
+      "name": "Keys",
+      "description": {
+        "content": "Pre-key bundle management endpoints for uploading and retrieving public key material used in the Signal Protocol key exchange.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6cc211ed-4eb8-41a5-9dbc-fb31fea2dff0",
+          "name": "Get pre-key counts",
+          "request": {
+            "name": "Get pre-key counts",
+            "description": {
+              "content": "Returns the number of pre-keys currently stored on the server for the authenticated device. Clients use this to determine whether they need to upload additional pre-keys.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1b511a12-ef50-41de-a059-75d515a464f1",
+              "name": "Pre-key count returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 1097,\n  \"pqCount\": 5567\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e74188cb-3208-46b0-b5aa-4d370275c81a",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8dfc45e7-c4ee-4419-b8c7-586d5ec7b8b1",
+          "name": "Upload pre-keys",
+          "request": {
+            "name": "Upload pre-keys",
+            "description": {
+              "content": "Uploads a batch of pre-keys, a signed pre-key, and optionally a last-resort Kyber pre-key for the authenticated device. These keys are used by other clients to establish Signal Protocol sessions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preKeys\": [\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\"\n    },\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\"\n    }\n  ],\n  \"signedPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  },\n  \"pqPreKeys\": [\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\",\n      \"signature\": \"<string>\"\n    },\n    {\n      \"keyId\": \"<long>\",\n      \"publicKey\": \"<string>\",\n      \"signature\": \"<string>\"\n    }\n  ],\n  \"pqLastResortPreKey\": {\n    \"keyId\": \"<long>\",\n    \"publicKey\": \"<string>\",\n    \"signature\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "53268b39-d740-41a5-8e3d-105594de6fb9",
+              "name": "Keys uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"preKeys\": [\n    {\n      \"keyId\": 3810,\n      \"publicKey\": \"string\"\n    },\n    {\n      \"keyId\": 1526,\n      \"publicKey\": \"string\"\n    }\n  ],\n  \"signedPreKey\": {\n    \"keyId\": 1021,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pqPreKeys\": [\n    {\n      \"keyId\": 6375,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    },\n    {\n      \"keyId\": 7786,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    }\n  ],\n  \"pqLastResortPreKey\": {\n    \"keyId\": 9886,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "53450892-b5b8-4fb2-8446-417292ba1efe",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"preKeys\": [\n    {\n      \"keyId\": 3810,\n      \"publicKey\": \"string\"\n    },\n    {\n      \"keyId\": 1526,\n      \"publicKey\": \"string\"\n    }\n  ],\n  \"signedPreKey\": {\n    \"keyId\": 1021,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  },\n  \"pqPreKeys\": [\n    {\n      \"keyId\": 6375,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    },\n    {\n      \"keyId\": 7786,\n      \"publicKey\": \"string\",\n      \"signature\": \"string\"\n    }\n  ],\n  \"pqLastResortPreKey\": {\n    \"keyId\": 9886,\n    \"publicKey\": \"string\",\n    \"signature\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d1d7f609-6783-435e-9c54-c1b0a537935f",
+          "name": "Get pre-key bundle for a device",
+          "request": {
+            "name": "Get pre-key bundle for a device",
+            "description": {
+              "content": "Retrieves a pre-key bundle for a specific device belonging to the identified account. The bundle includes a pre-key, signed pre-key, and identity key needed to establish a Signal Protocol session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "keys",
+                ":identifier",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "identifier",
+                  "description": "(Required) The UUID or phone number identifying the target account."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "deviceId",
+                  "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a8dc1658-be02-4aac-93ef-606bc5737939",
+              "name": "Pre-key bundle returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys",
+                    ":identifier",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID or phone number identifying the target account."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"identityKey\": \"string\",\n  \"devices\": [\n    {\n      \"deviceId\": 6788,\n      \"registrationId\": 5532,\n      \"signedPreKey\": {\n        \"keyId\": 9189,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      },\n      \"preKey\": {\n        \"keyId\": 1332,\n        \"publicKey\": \"string\"\n      },\n      \"pqPreKey\": {\n        \"keyId\": 4119,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      }\n    },\n    {\n      \"deviceId\": 3656,\n      \"registrationId\": 6901,\n      \"signedPreKey\": {\n        \"keyId\": 3067,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      },\n      \"preKey\": {\n        \"keyId\": 2580,\n        \"publicKey\": \"string\"\n      },\n      \"pqPreKey\": {\n        \"keyId\": 967,\n        \"publicKey\": \"string\",\n        \"signature\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5574b003-7937-457d-b599-bea9f4e1bd5e",
+              "name": "Account or device not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "keys",
+                    ":identifier",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) The UUID or phone number identifying the target account."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "deviceId",
+                      "description": "(Required) The numeric device identifier. Device 1 is always the primary device."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.signal.org",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9d924652-eee3-40b3-b918-671c0d471540",
+    "name": "Signal Server Accounts Keys API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.\n\nContact Support:\n Name: Signal Support",
+      "type": "text/plain"
+    }
+  }
+}

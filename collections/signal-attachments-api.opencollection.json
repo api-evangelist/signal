@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Attachments API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Attachments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get attachment upload form",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v4/attachments/form/upload"
+          },
+          "docs": "Returns a pre-signed upload form that clients use to upload attachment data directly to the storage service. The form includes the upload URL, headers, and the attachment identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

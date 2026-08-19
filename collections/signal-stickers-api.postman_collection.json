@@ -1,0 +1,198 @@
+{
+  "item": [
+    {
+      "id": "017928a6-0429-4c96-96cb-16db21ddfa9c",
+      "name": "Stickers",
+      "description": {
+        "content": "Sticker pack management endpoints for uploading and retrieving sticker packs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6cbf07e1-499b-44d5-a748-2b707d73fc77",
+          "name": "Get sticker pack upload form",
+          "request": {
+            "name": "Get sticker pack upload form",
+            "description": {
+              "content": "Returns a pre-signed upload form for uploading a sticker pack with the specified number of stickers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sticker",
+                "pack",
+                "form",
+                ":packSize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "packSize",
+                  "description": "(Required) The number of stickers in the pack."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bc5d9ea5-2482-4cbb-a721-2c15692a58e6",
+              "name": "Upload form returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sticker",
+                    "pack",
+                    "form",
+                    ":packSize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "packSize",
+                      "description": "(Required) The number of stickers in the pack."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"packId\": \"string\",\n  \"manifest\": {\n    \"cdn\": 767,\n    \"key\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"signedUploadLocation\": \"http://PxqbarjbbgWFKWsltaWZeSrLKSVgan.delxa.WaWjW8VnQaH,ubG5PXOeLCwTZ5GuO-V2ZBhqF1-cfWf\"\n  },\n  \"stickers\": [\n    {\n      \"cdn\": 2639,\n      \"key\": \"string\",\n      \"headers\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"signedUploadLocation\": \"http://x.namiFm\"\n    },\n    {\n      \"cdn\": 5991,\n      \"key\": \"string\",\n      \"headers\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      \"signedUploadLocation\": \"http://ygGdGCCamMWj.zkzz0d8gO65bHg56+dL9Q\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc27f000-d078-492f-ba30-835265ce3ac8",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sticker",
+                    "pack",
+                    "form",
+                    ":packSize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "packSize",
+                      "description": "(Required) The number of stickers in the pack."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.signal.org",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "42c321f3-c05a-4623-8508-96862f452c85",
+    "name": "Signal Server Accounts Stickers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.\n\nContact Support:\n Name: Signal Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Keys API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get pre-key counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v2/keys"
+          },
+          "docs": "Returns the number of pre-keys currently stored on the server for the authenticated device. Clients use this to determine whether they need to upload additional pre-keys."
+        },
+        {
+          "info": {
+            "name": "Upload pre-keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v2/keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads a batch of pre-keys, a signed pre-key, and optionally a last-resort Kyber pre-key for the authenticated device. These keys are used by other clients to establish Signal Protocol sessions."
+        },
+        {
+          "info": {
+            "name": "Get pre-key bundle for a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v2/keys/:identifier/:deviceId",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "The UUID or phone number identifying the target account."
+              },
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The numeric device identifier. Device 1 is always the primary device."
+              }
+            ]
+          },
+          "docs": "Retrieves a pre-key bundle for a specific device belonging to the identified account. The bundle includes a pre-key, signed pre-key, and identity key needed to establish a Signal Protocol session."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

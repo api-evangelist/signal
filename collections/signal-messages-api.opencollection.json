@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Messages API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send an encrypted message",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/messages/:destinationUuid",
+            "params": [
+              {
+                "name": "destinationUuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the destination account."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends one or more encrypted messages to the specified destination account identified by UUID. Messages are encrypted using the Signal Protocol and include envelope metadata for delivery. The server routes messages to the recipient's devices."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

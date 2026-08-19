@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Profiles API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/profile/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "The UUID identifying the target account."
+              }
+            ]
+          },
+          "docs": "Retrieves the profile for the specified account, including the encrypted profile name, avatar URL, identity key, and capabilities. Profile data is encrypted with the profile key shared between contacts."
+        },
+        {
+          "info": {
+            "name": "Set user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/profile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the profile for the authenticated account. Profile data including name, about text, emoji, and payment address are encrypted with the account's profile key before transmission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

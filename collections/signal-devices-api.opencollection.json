@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Devices API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List linked devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/devices"
+          },
+          "docs": "Returns a list of all devices currently linked to the authenticated account, including device IDs, names, and last seen timestamps."
+        },
+        {
+          "info": {
+            "name": "Link a new device",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/devices/link",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Links a new device to the authenticated account. The new device must have already been provisioned with a device code obtained through the provisioning process."
+        },
+        {
+          "info": {
+            "name": "Remove a linked device",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://chat.signal.org/v1/devices/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The numeric device identifier. Device 1 is always the primary device."
+              }
+            ]
+          },
+          "docs": "Removes a linked device from the authenticated account. This unlinks the device and invalidates its credentials."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

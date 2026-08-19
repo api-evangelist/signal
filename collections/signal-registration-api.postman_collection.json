@@ -1,0 +1,290 @@
+{
+  "item": [
+    {
+      "id": "18f8a8cd-465d-494f-a9dd-a1b8fff27a34",
+      "name": "Registration",
+      "description": {
+        "content": "Account registration endpoints for creating new Signal accounts via phone number verification.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1a6e6e2f-93bc-41a5-ba27-cb539ff801ba",
+          "name": "Register a new account",
+          "request": {
+            "name": "Register a new account",
+            "description": {
+              "content": "Registers a new Signal account with a phone number. Initiates the verification process by sending an SMS or voice call with a verification code to the provided phone number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "registration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": \"<boolean>\",\n    \"registrationId\": \"<integer>\",\n    \"pniRegistrationId\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"capabilities\": {\n      \"storage\": \"<boolean>\",\n      \"transfer\": \"<boolean>\",\n      \"paymentActivation\": \"<boolean>\"\n    },\n    \"unidentifiedAccessKey\": \"<string>\",\n    \"unrestrictedUnidentifiedAccess\": \"<boolean>\"\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "49a0c37d-105f-4e69-a69d-255499f8416c",
+              "name": "Registration initiated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6876,\n    \"pniRegistrationId\": 653,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"6d2a2f8b-d474-d182-f0b2-01d6c57e23a9\",\n  \"number\": \"string\",\n  \"pni\": \"1390e1a0-e645-d1c2-b15d-c77d60993c08\",\n  \"storageCapable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5516987-02a9-44ff-8ca8-5c43f7f861d5",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6876,\n    \"pniRegistrationId\": 653,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5b097e35-7db6-4c25-8647-bf02a1420382",
+              "name": "Account already exists or number is rate-limited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6876,\n    \"pniRegistrationId\": 653,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dc34db01-9a4f-4421-bb90-039af0e6c108",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"accountAttributes\": {\n    \"fetchesMessages\": false,\n    \"registrationId\": 6876,\n    \"pniRegistrationId\": 653,\n    \"name\": \"string\",\n    \"capabilities\": {\n      \"storage\": true,\n      \"transfer\": true,\n      \"paymentActivation\": false\n    },\n    \"unidentifiedAccessKey\": \"string\",\n    \"unrestrictedUnidentifiedAccess\": true\n  },\n  \"skipDeviceTransfer\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.signal.org",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a8ff91f5-ad6d-43b6-bcf2-07d05c0c0b44",
+    "name": "Signal Server Accounts Registration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Signal Server API is the backend REST API that supports the Signal Private Messenger applications on Android, Desktop, and iOS. Built as a Dropwizard application, it provides REST controllers for account registration and management, message delivery, pre-key bundle distribution, device provisioning, profile management, and attachment handling. The server handles user registration via phone number verification, encrypted message routing, push notification delivery, and pre-key bundle management. While Signal does not offer an official public REST API for third-party use, the server source code is available for inspection and self-hosting. All communication is end-to-end encrypted using the Signal Protocol.\n\nContact Support:\n Name: Signal Support",
+      "type": "text/plain"
+    }
+  }
+}

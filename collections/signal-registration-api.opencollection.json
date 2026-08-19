@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Registration API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a new account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.signal.org/v1/registration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new Signal account with a phone number. Initiates the verification process by sending an SMS or voice call with a verification code to the provided phone number."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

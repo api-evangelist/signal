@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current account identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/accounts/whoami"
+          },
+          "docs": "Returns the account identity information for the currently authenticated user, including the account UUID and phone number."
+        },
+        {
+          "info": {
+            "name": "Set account attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/accounts/attributes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the account attributes for the authenticated user, including registration ID, voice and video capabilities, fetches messages setting, and other account-level configuration."
+        },
+        {
+          "info": {
+            "name": "Look up account by username hash",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/accounts/username_hash/:usernameHash",
+            "params": [
+              {
+                "name": "usernameHash",
+                "value": "",
+                "type": "path",
+                "description": "The Base64url-encoded SHA-256 hash of the username."
+              }
+            ]
+          },
+          "docs": "Looks up an account by its username hash and returns the account UUID if found."
+        },
+        {
+          "info": {
+            "name": "Confirm a username hash",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/accounts/username_hash/:usernameHash",
+            "params": [
+              {
+                "name": "usernameHash",
+                "value": "",
+                "type": "path",
+                "description": "The Base64url-encoded SHA-256 hash of the username."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirms and sets a username hash for the authenticated account. The username hash is a privacy-preserving representation of the username."
+        },
+        {
+          "info": {
+            "name": "Change account phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.signal.org/v1/accounts/number",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the phone number associated with the authenticated account. Requires re-verification of the new phone number."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

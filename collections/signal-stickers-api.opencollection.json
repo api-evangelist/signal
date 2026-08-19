@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Stickers API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stickers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get sticker pack upload form",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/sticker/pack/form/:packSize",
+            "params": [
+              {
+                "name": "packSize",
+                "value": "",
+                "type": "path",
+                "description": "The number of stickers in the pack."
+              }
+            ]
+          },
+          "docs": "Returns a pre-signed upload form for uploading a sticker pack with the specified number of stickers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

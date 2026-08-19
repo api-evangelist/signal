@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Signal Server Accounts Certificates API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Certificates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a sealed sender delivery certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.signal.org/v1/certificate/delivery",
+            "params": [
+              {
+                "name": "includeE164",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the E164 phone number in the certificate."
+              }
+            ]
+          },
+          "docs": "Returns a delivery certificate for the authenticated account. This certificate is used in sealed sender message delivery, which hides the sender's identity from the server during message transmission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
