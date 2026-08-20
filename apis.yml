@@ -48,6 +48,12 @@ apis:
   - Mobile
   - Messaging
   - Encryption
+  - Open-Source
+  tags_raw:
+  - Android
+  - Mobile
+  - Messaging
+  - Encryption
   - Open Source
   humanURL: https://github.com/signalapp/Signal-Android
   properties:
@@ -67,6 +73,12 @@ apis:
   - Mobile
   - Messaging
   - Encryption
+  - Open-Source
+  tags_raw:
+  - iOS
+  - Mobile
+  - Messaging
+  - Encryption
   - Open Source
   humanURL: https://github.com/signalapp/Signal-iOS
   properties:
@@ -82,6 +94,12 @@ apis:
 - aid: signal:signal-desktop-sdk
   name: Signal Desktop SDK
   tags:
+  - Desktop
+  - Electron
+  - Messaging
+  - Encryption
+  - Open-Source
+  tags_raw:
   - Desktop
   - Electron
   - Messaging
@@ -106,6 +124,8 @@ apis:
   humanURL: https://signal.org/docs/
   baseURL: https://chat.signal.org
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -233,6 +253,8 @@ apis:
   humanURL: https://signal.org/docs/
   baseURL: https://chat.signal.org
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -328,6 +350,13 @@ apis:
     url: vocabulary/signal-vocabulary.yml
 name: Signal
 tags:
+  - Encryption
+  - Messaging
+  - Security
+  - Cryptography
+  - Open-Source
+  - Privacy
+tags_raw:
   - Encryption
   - Messaging
   - Security
