@@ -8,6 +8,12 @@ apis:
   - Messaging
   - Cryptography
   - Security
+  - Protocol
+  tags_raw:
+  - Encryption
+  - Messaging
+  - Cryptography
+  - Security
   - Protocols
   humanURL: https://signal.org/docs/
   properties:
