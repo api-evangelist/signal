@@ -1,15 +1,7 @@
 {
   "provider": "signal",
   "sources": [
-    "signal-accounts-api-openapi.yml",
-    "signal-attachments-api-openapi.yml",
-    "signal-certificates-api-openapi.yml",
-    "signal-devices-api-openapi.yml",
-    "signal-keys-api-openapi.yml",
-    "signal-messages-api-openapi.yml",
-    "signal-profiles-api-openapi.yml",
-    "signal-registration-api-openapi.yml",
-    "signal-stickers-api-openapi.yml"
+    "_original/signal-server-openapi.yml"
   ],
   "outputs": [
     "signal-accounts-api-openapi.yml",
@@ -25,6 +17,20 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "signal-server-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "signal-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-attachments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-certificates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-profiles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-registration-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "signal-stickers-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
