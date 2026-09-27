@@ -65,6 +65,30 @@ paths:
           description: Authentication required
 components:
   schemas:
+    SetProfileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The encrypted profile name, Base64-encoded.
+        about:
+          type: string
+          description: The encrypted about text, Base64-encoded.
+        aboutEmoji:
+          type: string
+          description: The encrypted about emoji, Base64-encoded.
+        paymentAddress:
+          type: string
+          description: The encrypted payment address, Base64-encoded.
+        avatar:
+          type: boolean
+          description: Whether the profile has an avatar to upload.
+        commitment:
+          type: string
+          description: The Base64-encoded profile key commitment.
+        version:
+          type: string
+          description: The profile key version string.
     Profile:
       type: object
       properties:
@@ -102,30 +126,6 @@ components:
         paymentAddress:
           type: string
           description: The encrypted MobileCoin payment address, Base64-encoded.
-    SetProfileRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The encrypted profile name, Base64-encoded.
-        about:
-          type: string
-          description: The encrypted about text, Base64-encoded.
-        aboutEmoji:
-          type: string
-          description: The encrypted about emoji, Base64-encoded.
-        paymentAddress:
-          type: string
-          description: The encrypted payment address, Base64-encoded.
-        avatar:
-          type: boolean
-          description: Whether the profile has an avatar to upload.
-        commitment:
-          type: string
-          description: The Base64-encoded profile key commitment.
-        version:
-          type: string
-          description: The profile key version string.
   securitySchemes:
     basicAuth:
       type: http

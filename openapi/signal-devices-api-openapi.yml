@@ -77,47 +77,6 @@ paths:
           description: Device not found
 components:
   schemas:
-    DeviceResponse:
-      type: object
-      properties:
-        deviceId:
-          type: integer
-          format: int64
-          description: The numeric device identifier assigned to the newly linked device.
-    KyberPreKey:
-      type: object
-      required:
-      - keyId
-      - publicKey
-      - signature
-      properties:
-        keyId:
-          type: integer
-          format: int64
-          description: The Kyber pre-key identifier.
-        publicKey:
-          type: string
-          description: The Base64-encoded Kyber public key.
-        signature:
-          type: string
-          description: The Base64-encoded signature over the Kyber public key.
-    SignedPreKey:
-      type: object
-      required:
-      - keyId
-      - publicKey
-      - signature
-      properties:
-        keyId:
-          type: integer
-          format: int64
-          description: The signed pre-key identifier.
-        publicKey:
-          type: string
-          description: The Base64-encoded public key.
-        signature:
-          type: string
-          description: The Base64-encoded signature over the public key.
     Device:
       type: object
       properties:
@@ -136,6 +95,23 @@ components:
           type: integer
           format: int64
           description: Unix timestamp in milliseconds of when the device was linked.
+    SignedPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The signed pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the public key.
     AccountAttributes:
       type: object
       properties:
@@ -178,6 +154,23 @@ components:
           description: List of devices linked to the account.
           items:
             $ref: '#/components/schemas/Device'
+    KyberPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The Kyber pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded Kyber public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the Kyber public key.
     LinkDeviceRequest:
       type: object
       required:
@@ -197,6 +190,13 @@ components:
           $ref: '#/components/schemas/KyberPreKey'
         pniPqLastResortPreKey:
           $ref: '#/components/schemas/KyberPreKey'
+    DeviceResponse:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          description: The numeric device identifier assigned to the newly linked device.
   parameters:
     deviceId:
       name: deviceId

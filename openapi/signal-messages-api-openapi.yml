@@ -59,6 +59,15 @@ paths:
                 $ref: '#/components/schemas/StaleDevices'
 components:
   schemas:
+    StaleDevices:
+      type: object
+      properties:
+        staleDevices:
+          type: array
+          description: Device IDs with stale registration IDs.
+          items:
+            type: integer
+            format: int64
     IncomingMessage:
       type: object
       required:
@@ -84,6 +93,12 @@ components:
         content:
           type: string
           description: The Base64-encoded encrypted message content.
+    SendMessageResponse:
+      type: object
+      properties:
+        needsSync:
+          type: boolean
+          description: Whether the sender has other devices that need to be synced with this message.
     IncomingMessageList:
       type: object
       required:
@@ -105,21 +120,6 @@ components:
         urgent:
           type: boolean
           description: Whether the message is urgent and should trigger immediate push notification delivery.
-    SendMessageResponse:
-      type: object
-      properties:
-        needsSync:
-          type: boolean
-          description: Whether the sender has other devices that need to be synced with this message.
-    StaleDevices:
-      type: object
-      properties:
-        staleDevices:
-          type: array
-          description: Device IDs with stale registration IDs.
-          items:
-            type: integer
-            format: int64
     MismatchedDevices:
       type: object
       properties:

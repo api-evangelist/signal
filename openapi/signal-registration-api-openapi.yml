@@ -47,6 +47,20 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
+    RegistrationRequest:
+      type: object
+      required:
+      - sessionId
+      - accountAttributes
+      properties:
+        sessionId:
+          type: string
+          description: The verification session identifier obtained from the registration service.
+        accountAttributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        skipDeviceTransfer:
+          type: boolean
+          description: Whether to skip the device transfer flow for existing accounts.
     RegistrationResponse:
       type: object
       properties:
@@ -98,20 +112,6 @@ components:
         unrestrictedUnidentifiedAccess:
           type: boolean
           description: Whether any sender can use sealed sender without the access key.
-    RegistrationRequest:
-      type: object
-      required:
-      - sessionId
-      - accountAttributes
-      properties:
-        sessionId:
-          type: string
-          description: The verification session identifier obtained from the registration service.
-        accountAttributes:
-          $ref: '#/components/schemas/AccountAttributes'
-        skipDeviceTransfer:
-          type: boolean
-          description: Whether to skip the device transfer flow for existing accounts.
   securitySchemes:
     basicAuth:
       type: http

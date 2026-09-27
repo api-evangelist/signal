@@ -129,30 +129,6 @@ components:
         pniIdentityKey:
           type: string
           description: The new PNI identity key, Base64-encoded.
-    AccountIdentity:
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          description: The ACI (Account Identity) UUID.
-        number:
-          type: string
-          description: The E164-formatted phone number.
-        pni:
-          type: string
-          format: uuid
-          description: The Phone Number Identity UUID.
-        usernameHash:
-          type: string
-          description: The Base64url-encoded username hash if set.
-    UsernameHashLookupResponse:
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          description: The UUID of the account associated with the username hash.
     AccountAttributes:
       type: object
       properties:
@@ -187,6 +163,13 @@ components:
         unrestrictedUnidentifiedAccess:
           type: boolean
           description: Whether any sender can use sealed sender without the access key.
+    UsernameHashLookupResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID of the account associated with the username hash.
     UsernameHashConfirmation:
       type: object
       required:
@@ -199,6 +182,23 @@ components:
         zkProof:
           type: string
           description: The zero-knowledge proof that the username hash is valid.
+    AccountIdentity:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The ACI (Account Identity) UUID.
+        number:
+          type: string
+          description: The E164-formatted phone number.
+        pni:
+          type: string
+          format: uuid
+          description: The Phone Number Identity UUID.
+        usernameHash:
+          type: string
+          description: The Base64url-encoded username hash if set.
   parameters:
     usernameHash:
       name: usernameHash

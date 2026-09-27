@@ -54,13 +54,14 @@ apis:
   - Mobile
   - Messaging
   - Encryption
-  - Open-Source
+  - Open Source
   tags_raw:
   - Android
   - Mobile
   - Messaging
   - Encryption
   - Open Source
+  - Open-Source
   humanURL: https://github.com/signalapp/Signal-Android
   properties:
   - url: https://github.com/signalapp/Signal-Android
@@ -79,13 +80,14 @@ apis:
   - Mobile
   - Messaging
   - Encryption
-  - Open-Source
+  - Open Source
   tags_raw:
   - iOS
   - Mobile
   - Messaging
   - Encryption
   - Open Source
+  - Open-Source
   humanURL: https://github.com/signalapp/Signal-iOS
   properties:
   - url: https://github.com/signalapp/Signal-iOS
@@ -104,13 +106,14 @@ apis:
   - Electron
   - Messaging
   - Encryption
-  - Open-Source
+  - Open Source
   tags_raw:
   - Desktop
   - Electron
   - Messaging
   - Encryption
   - Open Source
+  - Open-Source
   humanURL: https://github.com/signalapp/Signal-Desktop
   properties:
   - url: https://github.com/signalapp/Signal-Desktop
@@ -360,8 +363,9 @@ tags:
   - Messaging
   - Security
   - Cryptography
-  - Open-Source
+  - Open Source
   - Privacy
+  - Real-Time
 tags_raw:
   - Encryption
   - Messaging
@@ -369,18 +373,26 @@ tags_raw:
   - Cryptography
   - Open Source
   - Privacy
+  - Open-Source
+  - Real-Time
 kind: contract
 deliveryModel:
-  model: saas
-  open_source: false
+  model: open-core
+  license: AGPL-3.0
+  license_evidence:
+    repo: signalapp/signal-desktop
+    spdx: AGPL-3.0
+    stars: 16555
+  open_source: true
   commercial: true
   callable_host: true
-  label: Hosted service · you call their endpoint
-  confidence: high
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: medium
   source:
   - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: paid
