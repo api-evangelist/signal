@@ -47,37 +47,6 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
-    RegistrationRequest:
-      type: object
-      required:
-      - sessionId
-      - accountAttributes
-      properties:
-        sessionId:
-          type: string
-          description: The verification session identifier obtained from the registration service.
-        accountAttributes:
-          $ref: '#/components/schemas/AccountAttributes'
-        skipDeviceTransfer:
-          type: boolean
-          description: Whether to skip the device transfer flow for existing accounts.
-    RegistrationResponse:
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          description: The UUID assigned to the newly registered account.
-        number:
-          type: string
-          description: The E164-formatted phone number associated with the account.
-        pni:
-          type: string
-          format: uuid
-          description: The Phone Number Identity UUID for the account.
-        storageCapable:
-          type: boolean
-          description: Whether the account supports secure storage service.
     AccountAttributes:
       type: object
       properties:
@@ -112,6 +81,37 @@ components:
         unrestrictedUnidentifiedAccess:
           type: boolean
           description: Whether any sender can use sealed sender without the access key.
+    RegistrationResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: The UUID assigned to the newly registered account.
+        number:
+          type: string
+          description: The E164-formatted phone number associated with the account.
+        pni:
+          type: string
+          format: uuid
+          description: The Phone Number Identity UUID for the account.
+        storageCapable:
+          type: boolean
+          description: Whether the account supports secure storage service.
+    RegistrationRequest:
+      type: object
+      required:
+      - sessionId
+      - accountAttributes
+      properties:
+        sessionId:
+          type: string
+          description: The verification session identifier obtained from the registration service.
+        accountAttributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        skipDeviceTransfer:
+          type: boolean
+          description: Whether to skip the device transfer flow for existing accounts.
   securitySchemes:
     basicAuth:
       type: http

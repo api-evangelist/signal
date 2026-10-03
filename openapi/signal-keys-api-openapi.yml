@@ -78,80 +78,6 @@ paths:
           description: Account or device not found
 components:
   schemas:
-    SetKeysRequest:
-      type: object
-      properties:
-        preKeys:
-          type: array
-          description: A list of one-time EC pre-keys to upload.
-          items:
-            $ref: '#/components/schemas/PreKey'
-        signedPreKey:
-          $ref: '#/components/schemas/SignedPreKey'
-        pqPreKeys:
-          type: array
-          description: A list of one-time post-quantum (Kyber) pre-keys to upload.
-          items:
-            $ref: '#/components/schemas/KyberPreKey'
-        pqLastResortPreKey:
-          $ref: '#/components/schemas/KyberPreKey'
-    DevicePreKeyBundle:
-      type: object
-      properties:
-        deviceId:
-          type: integer
-          format: int64
-          description: The device identifier.
-        registrationId:
-          type: integer
-          description: The device's registration ID.
-        signedPreKey:
-          $ref: '#/components/schemas/SignedPreKey'
-        preKey:
-          $ref: '#/components/schemas/PreKey'
-        pqPreKey:
-          $ref: '#/components/schemas/KyberPreKey'
-    PreKey:
-      type: object
-      required:
-      - keyId
-      - publicKey
-      properties:
-        keyId:
-          type: integer
-          format: int64
-          description: The pre-key identifier.
-        publicKey:
-          type: string
-          description: The Base64-encoded public key.
-    PreKeyBundle:
-      type: object
-      properties:
-        identityKey:
-          type: string
-          description: The Base64-encoded identity public key for the account.
-        devices:
-          type: array
-          description: Pre-key bundles for each of the account's devices.
-          items:
-            $ref: '#/components/schemas/DevicePreKeyBundle'
-    SignedPreKey:
-      type: object
-      required:
-      - keyId
-      - publicKey
-      - signature
-      properties:
-        keyId:
-          type: integer
-          format: int64
-          description: The signed pre-key identifier.
-        publicKey:
-          type: string
-          description: The Base64-encoded public key.
-        signature:
-          type: string
-          description: The Base64-encoded signature over the public key.
     KyberPreKey:
       type: object
       required:
@@ -169,6 +95,67 @@ components:
         signature:
           type: string
           description: The Base64-encoded signature over the Kyber public key.
+    DevicePreKeyBundle:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          format: int64
+          description: The device identifier.
+        registrationId:
+          type: integer
+          description: The device's registration ID.
+        signedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        preKey:
+          $ref: '#/components/schemas/PreKey'
+        pqPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
+    SignedPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The signed pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the public key.
+    PreKeyBundle:
+      type: object
+      properties:
+        identityKey:
+          type: string
+          description: The Base64-encoded identity public key for the account.
+        devices:
+          type: array
+          description: Pre-key bundles for each of the account's devices.
+          items:
+            $ref: '#/components/schemas/DevicePreKeyBundle'
+    SetKeysRequest:
+      type: object
+      properties:
+        preKeys:
+          type: array
+          description: A list of one-time EC pre-keys to upload.
+          items:
+            $ref: '#/components/schemas/PreKey'
+        signedPreKey:
+          $ref: '#/components/schemas/SignedPreKey'
+        pqPreKeys:
+          type: array
+          description: A list of one-time post-quantum (Kyber) pre-keys to upload.
+          items:
+            $ref: '#/components/schemas/KyberPreKey'
+        pqLastResortPreKey:
+          $ref: '#/components/schemas/KyberPreKey'
     PreKeyCount:
       type: object
       properties:
@@ -178,6 +165,19 @@ components:
         pqCount:
           type: integer
           description: The number of post-quantum (Kyber) one-time pre-keys remaining.
+    PreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      properties:
+        keyId:
+          type: integer
+          format: int64
+          description: The pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded public key.
   parameters:
     deviceId:
       name: deviceId

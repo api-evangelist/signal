@@ -59,15 +59,6 @@ paths:
                 $ref: '#/components/schemas/StaleDevices'
 components:
   schemas:
-    StaleDevices:
-      type: object
-      properties:
-        staleDevices:
-          type: array
-          description: Device IDs with stale registration IDs.
-          items:
-            type: integer
-            format: int64
     IncomingMessage:
       type: object
       required:
@@ -93,6 +84,15 @@ components:
         content:
           type: string
           description: The Base64-encoded encrypted message content.
+    StaleDevices:
+      type: object
+      properties:
+        staleDevices:
+          type: array
+          description: Device IDs with stale registration IDs.
+          items:
+            type: integer
+            format: int64
     SendMessageResponse:
       type: object
       properties:
