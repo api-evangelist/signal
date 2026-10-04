@@ -114,6 +114,33 @@ paths:
           description: Number already in use
 components:
   schemas:
+    ChangeNumberRequest:
+      type: object
+      required:
+      - number
+      - registrationLock
+      properties:
+        number:
+          type: string
+          description: The new E164-formatted phone number.
+        registrationLock:
+          type: string
+          description: The registration lock token for verification.
+        pniIdentityKey:
+          type: string
+          description: The new PNI identity key, Base64-encoded.
+    UsernameHashConfirmation:
+      type: object
+      required:
+      - usernameHash
+      - zkProof
+      properties:
+        usernameHash:
+          type: string
+          description: The Base64url-encoded username hash to confirm.
+        zkProof:
+          type: string
+          description: The zero-knowledge proof that the username hash is valid.
     AccountIdentity:
       type: object
       properties:
@@ -131,18 +158,13 @@ components:
         usernameHash:
           type: string
           description: The Base64url-encoded username hash if set.
-    UsernameHashConfirmation:
+    UsernameHashLookupResponse:
       type: object
-      required:
-      - usernameHash
-      - zkProof
       properties:
-        usernameHash:
+        uuid:
           type: string
-          description: The Base64url-encoded username hash to confirm.
-        zkProof:
-          type: string
-          description: The zero-knowledge proof that the username hash is valid.
+          format: uuid
+          description: The UUID of the account associated with the username hash.
     AccountAttributes:
       type: object
       properties:
@@ -177,28 +199,6 @@ components:
         unrestrictedUnidentifiedAccess:
           type: boolean
           description: Whether any sender can use sealed sender without the access key.
-    ChangeNumberRequest:
-      type: object
-      required:
-      - number
-      - registrationLock
-      properties:
-        number:
-          type: string
-          description: The new E164-formatted phone number.
-        registrationLock:
-          type: string
-          description: The registration lock token for verification.
-        pniIdentityKey:
-          type: string
-          description: The new PNI identity key, Base64-encoded.
-    UsernameHashLookupResponse:
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          description: The UUID of the account associated with the username hash.
   parameters:
     usernameHash:
       name: usernameHash

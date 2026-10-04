@@ -77,65 +77,13 @@ paths:
           description: Device not found
 components:
   schemas:
-    KyberPreKey:
+    DeviceResponse:
       type: object
-      required:
-      - keyId
-      - publicKey
-      - signature
       properties:
-        keyId:
+        deviceId:
           type: integer
           format: int64
-          description: The Kyber pre-key identifier.
-        publicKey:
-          type: string
-          description: The Base64-encoded Kyber public key.
-        signature:
-          type: string
-          description: The Base64-encoded signature over the Kyber public key.
-    AccountAttributes:
-      type: object
-      properties:
-        fetchesMessages:
-          type: boolean
-          description: Whether the device fetches messages via WebSocket rather than receiving push notifications.
-        registrationId:
-          type: integer
-          description: The Signal Protocol registration ID for this device.
-        pniRegistrationId:
-          type: integer
-          description: The PNI registration ID for this device.
-        name:
-          type: string
-          description: The encrypted device name, Base64-encoded.
-        capabilities:
-          type: object
-          description: Account capability flags indicating supported features.
-          properties:
-            storage:
-              type: boolean
-              description: Whether the account supports secure value recovery and storage service.
-            transfer:
-              type: boolean
-              description: Whether the device supports account transfer.
-            paymentActivation:
-              type: boolean
-              description: Whether the account supports payment activation.
-        unidentifiedAccessKey:
-          type: string
-          description: The Base64-encoded unidentified access key for sealed sender.
-        unrestrictedUnidentifiedAccess:
-          type: boolean
-          description: Whether any sender can use sealed sender without the access key.
-    DeviceList:
-      type: object
-      properties:
-        devices:
-          type: array
-          description: List of devices linked to the account.
-          items:
-            $ref: '#/components/schemas/Device'
+          description: The numeric device identifier assigned to the newly linked device.
     SignedPreKey:
       type: object
       required:
@@ -153,13 +101,31 @@ components:
         signature:
           type: string
           description: The Base64-encoded signature over the public key.
-    DeviceResponse:
+    DeviceList:
       type: object
       properties:
-        deviceId:
+        devices:
+          type: array
+          description: List of devices linked to the account.
+          items:
+            $ref: '#/components/schemas/Device'
+    KyberPreKey:
+      type: object
+      required:
+      - keyId
+      - publicKey
+      - signature
+      properties:
+        keyId:
           type: integer
           format: int64
-          description: The numeric device identifier assigned to the newly linked device.
+          description: The Kyber pre-key identifier.
+        publicKey:
+          type: string
+          description: The Base64-encoded Kyber public key.
+        signature:
+          type: string
+          description: The Base64-encoded signature over the Kyber public key.
     LinkDeviceRequest:
       type: object
       required:
@@ -197,6 +163,40 @@ components:
           type: integer
           format: int64
           description: Unix timestamp in milliseconds of when the device was linked.
+    AccountAttributes:
+      type: object
+      properties:
+        fetchesMessages:
+          type: boolean
+          description: Whether the device fetches messages via WebSocket rather than receiving push notifications.
+        registrationId:
+          type: integer
+          description: The Signal Protocol registration ID for this device.
+        pniRegistrationId:
+          type: integer
+          description: The PNI registration ID for this device.
+        name:
+          type: string
+          description: The encrypted device name, Base64-encoded.
+        capabilities:
+          type: object
+          description: Account capability flags indicating supported features.
+          properties:
+            storage:
+              type: boolean
+              description: Whether the account supports secure value recovery and storage service.
+            transfer:
+              type: boolean
+              description: Whether the device supports account transfer.
+            paymentActivation:
+              type: boolean
+              description: Whether the account supports payment activation.
+        unidentifiedAccessKey:
+          type: string
+          description: The Base64-encoded unidentified access key for sealed sender.
+        unrestrictedUnidentifiedAccess:
+          type: boolean
+          description: Whether any sender can use sealed sender without the access key.
   parameters:
     deviceId:
       name: deviceId

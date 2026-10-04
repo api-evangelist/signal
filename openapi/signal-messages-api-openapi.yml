@@ -59,6 +59,21 @@ paths:
                 $ref: '#/components/schemas/StaleDevices'
 components:
   schemas:
+    StaleDevices:
+      type: object
+      properties:
+        staleDevices:
+          type: array
+          description: Device IDs with stale registration IDs.
+          items:
+            type: integer
+            format: int64
+    SendMessageResponse:
+      type: object
+      properties:
+        needsSync:
+          type: boolean
+          description: Whether the sender has other devices that need to be synced with this message.
     IncomingMessage:
       type: object
       required:
@@ -84,21 +99,21 @@ components:
         content:
           type: string
           description: The Base64-encoded encrypted message content.
-    StaleDevices:
+    MismatchedDevices:
       type: object
       properties:
-        staleDevices:
+        missingDevices:
           type: array
-          description: Device IDs with stale registration IDs.
+          description: Device IDs that messages were not provided for.
           items:
             type: integer
             format: int64
-    SendMessageResponse:
-      type: object
-      properties:
-        needsSync:
-          type: boolean
-          description: Whether the sender has other devices that need to be synced with this message.
+        extraDevices:
+          type: array
+          description: Device IDs that messages were provided for but do not exist.
+          items:
+            type: integer
+            format: int64
     IncomingMessageList:
       type: object
       required:
@@ -120,21 +135,6 @@ components:
         urgent:
           type: boolean
           description: Whether the message is urgent and should trigger immediate push notification delivery.
-    MismatchedDevices:
-      type: object
-      properties:
-        missingDevices:
-          type: array
-          description: Device IDs that messages were not provided for.
-          items:
-            type: integer
-            format: int64
-        extraDevices:
-          type: array
-          description: Device IDs that messages were provided for but do not exist.
-          items:
-            type: integer
-            format: int64
   parameters:
     destinationUuid:
       name: destinationUuid

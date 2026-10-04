@@ -46,19 +46,6 @@ paths:
           description: Authentication required
 components:
   schemas:
-    StickerPackUploadForm:
-      type: object
-      properties:
-        packId:
-          type: string
-          description: The identifier for the sticker pack.
-        manifest:
-          $ref: '#/components/schemas/AttachmentUploadForm'
-        stickers:
-          type: array
-          description: Upload forms for each sticker in the pack.
-          items:
-            $ref: '#/components/schemas/AttachmentUploadForm'
     AttachmentUploadForm:
       type: object
       properties:
@@ -77,6 +64,19 @@ components:
           type: string
           format: uri
           description: The pre-signed URL for uploading the attachment data.
+    StickerPackUploadForm:
+      type: object
+      properties:
+        packId:
+          type: string
+          description: The identifier for the sticker pack.
+        manifest:
+          $ref: '#/components/schemas/AttachmentUploadForm'
+        stickers:
+          type: array
+          description: Upload forms for each sticker in the pack.
+          items:
+            $ref: '#/components/schemas/AttachmentUploadForm'
   securitySchemes:
     basicAuth:
       type: http
